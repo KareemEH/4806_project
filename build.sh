@@ -1,1 +1,1 @@
-mvn clean install package;
+mvn clean install package spring-boot:repackage
