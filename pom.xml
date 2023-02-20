@@ -65,7 +65,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>main.App</mainClass>
+                <mainClass>main.BookStoreApp</mainClass>
               </manifest>
             </archive>
           </configuration>
