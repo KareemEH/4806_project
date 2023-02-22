@@ -2,29 +2,36 @@
     border: 0;
     margin: 0;
     padding: 0%;
-    /* display: block; */
     width: 100px;
 }
 
 #home-button{
     background-color: transparent;
     border: none;
+    margin-left: 40px;
+    margin-top: 40px;
 }
 
 #home-button:hover {
     background-color: lightgoldenrodyellow;
 }
 
-div {
+#header-div {
     height: 200px;
     overflow: hidden;
 }
 
 #page-title {
     text-align: center;
-    display: inline;
     font-size: 100px;
-    padding-left: 200px;
+    margin-left: 441px;
+    margin-top: -147px;
+    position: absolute;
+
+}
+
+.book-button{
+    max-height: 300px;
 }
 
 body {

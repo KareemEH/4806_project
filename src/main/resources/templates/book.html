@@ -12,13 +12,15 @@
     <link rel="icon" type="image/x-icon" href="/images/home_button.png">
 </head>
 <body>
-    <div>
+    <div id="header-div">
         <button id="home-button" onclick="goHome()">
             <img id="home-img" src="images/home_button.png" alt="Home button not found">
         </button>
         <p id="page-title"><strong><em>Amazin Books!</em></strong></p>
     </div>
-    <p>This is our book page!</p>
-    <img th:src="${path}" alt="Book picture not found">
+    <div>
+        <img id="book-picture" th:src="${path}" alt="Book picture not found">
+        <p id="book-title" th:text="${path}"></p>
+    </div>
 </body>
 </html>
