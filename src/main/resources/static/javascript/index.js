@@ -1,7 +1,5 @@
 
 
-console.log("This executes when loading index.html page");
-
-function goHome(){
-    document.location.href = "/"; 
+function goToBook(bookName){
+    document.location.href = `/book?title=${bookName}`; 
 }
