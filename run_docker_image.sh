@@ -1,1 +1,0 @@
-sudo docker run -i -t --publish 127.0.0.1:8080:8080/tcp 4806_project
