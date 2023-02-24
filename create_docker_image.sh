@@ -1,0 +1,1 @@
+docker build -t 4806_project .
