@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="javascript/common.js"></script>
-    <script src="javascript/index.js"></script>
+    <script src="javascript/book.js"></script>
     <link rel="stylesheet" href="stylesheets/common.css">
-    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/book.css">
     <link rel="icon" type="image/x-icon" href="/images/home_button.png">
 </head>
 <body>
@@ -18,8 +18,9 @@
         </button>
         <p id="page-title"><strong><em>Amazin Books!</em></strong></p>
     </div>
-    <p>This is our home page!</p>
-    <button onclick="goToBook('1984.jpg')"><img class="book-button" src="images/1984.jpg" alt="Book picture not found"></button>
-    <button onclick="goToBook('the_mist.jpg')"><img class="book-button" src="images/the_mist.jpg" alt="Book picture not found"></button>
+    <div>
+        <img id="book-picture" th:src="${path}" alt="Book picture not found">
+        <p id="book-title" th:text="${path}"></p>
+    </div>
 </body>
 </html>
