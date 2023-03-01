@@ -18,4 +18,14 @@ public class GUIController {
         model.addAttribute("path", "images/" + title);
         return "book";
     }
+
+    @GetMapping("login")
+    public String login(){
+        return "login";
+    }
+
+    @GetMapping("register")
+    public String register(){
+        return "register";
+    }
 }
