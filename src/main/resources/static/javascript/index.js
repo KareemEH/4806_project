@@ -1,3 +1,4 @@
+function goToBook(bookName){
+    document.location.href = `/book?title=${bookName}`; 
+}
 
-
-console.log("This executes when loading index.html page");

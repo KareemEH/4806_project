@@ -1,0 +1,59 @@
+#home-img {
+    border: 0;
+    margin: 0;
+    padding: 0%;
+    width: 100%;
+}
+
+#home-button{
+    background-color: transparent;
+    border: none;
+    margin-left: 3%;
+    margin-top: 2%;
+    width: 8%;
+}
+
+#home-button:hover {
+    background-color: lightblue;
+}
+
+header {
+    background-color: rgb(252, 184, 60);
+    padding-bottom: 1%;
+}
+
+header > * {
+    display: inline;
+    vertical-align: middle;
+}
+ 
+
+#page-title {
+    text-align: center;
+    font-size: 6vw;
+    margin-left: 10%;
+}
+
+body {
+    background-color: lightblue;
+    margin: 0px;
+}
+
+#login-reg-div {
+    margin-left: 2vw;
+}
+
+.login-reg-btn {
+    margin-left: 1vw;
+    padding: 0px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.login-reg-btn:hover {
+    background-color: lightblue;
+}
+
+.login-reg-text {
+    font-size: 2.5vw;
+}
