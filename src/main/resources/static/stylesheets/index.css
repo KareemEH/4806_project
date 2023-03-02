@@ -1,4 +1,14 @@
+#homepage-books {
+    margin-left: 5vw;
+}
 
-option{
-    background-color: aliceblue;
+.book-button {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+
+.book-button-img {
+    max-height: 72vh;
 }

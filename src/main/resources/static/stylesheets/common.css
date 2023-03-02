@@ -2,38 +2,58 @@
     border: 0;
     margin: 0;
     padding: 0%;
-    width: 100px;
+    width: 100%;
 }
 
 #home-button{
     background-color: transparent;
     border: none;
-    margin-left: 40px;
-    margin-top: 40px;
+    margin-left: 3%;
+    margin-top: 2%;
+    width: 8%;
 }
 
 #home-button:hover {
-    background-color: lightgoldenrodyellow;
+    background-color: lightblue;
 }
 
-#header-div {
-    height: 200px;
-    overflow: hidden;
+header {
+    background-color: rgb(252, 184, 60);
+    padding-bottom: 1%;
 }
+
+header > * {
+    display: inline;
+    vertical-align: middle;
+}
+ 
 
 #page-title {
     text-align: center;
-    font-size: 100px;
-    margin-left: 441px;
-    margin-top: -147px;
-    position: absolute;
-
-}
-
-.book-button{
-    max-height: 300px;
+    font-size: 6vw;
+    margin-left: 10%;
 }
 
 body {
-    background-color: lightgray;
+    background-color: lightblue;
+    margin: 0px;
+}
+
+#login-reg-div {
+    margin-left: 2vw;
+}
+
+.login-reg-btn {
+    margin-left: 1vw;
+    padding: 0px;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.login-reg-btn:hover {
+    background-color: lightblue;
+}
+
+.login-reg-text {
+    font-size: 2.5vw;
 }
