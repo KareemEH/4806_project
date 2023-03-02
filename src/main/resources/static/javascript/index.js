@@ -20,6 +20,6 @@ function addBookButton(title){
 
 document.addEventListener("DOMContentLoaded", () => {
     addBookButton("1984");
-    addBookButton("the_mist");
     addBookButton("farenheit_451");
+    addBookButton("the_mist");
 })

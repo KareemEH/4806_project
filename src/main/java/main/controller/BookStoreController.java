@@ -23,4 +23,13 @@ public class BookStoreController {
         
         return "{\"success\": true}";
     }
+
+    // @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
+    // public ArrayList< verifyLogin(){
+    //     //TODO implement account creation in backend
+    //     System.out.println(credentials.getUsername());
+    //     System.out.println(credentials.getPassword());
+        
+    //     return "{\"success\": true}";
+    // }
 }
