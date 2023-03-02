@@ -9,20 +9,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Books")
+@Table(name = "Orders")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookModel implements Serializable {
-
+public class OrderModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long id;
-    private String isbn;
-    private String title;
-    private String description;
-    private String author;
-    private String publisher;
-    private Float price;
+    private Integer id;
 }
