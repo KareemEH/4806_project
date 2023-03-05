@@ -1,10 +1,9 @@
 package main.repository;
 import main.model.UserModel;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.repository.CrudRepository;
 
 @Repository
-public interface UserRepository extends CrudRepository<UserModel, Integer> {
-    UserModel findById(Long id);
-    UserModel findByName(String username);
+public interface UserRepository extends JpaRepository<UserModel, Long> {
+    UserModel findByUsername(String username);
 }
