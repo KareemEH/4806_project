@@ -1,0 +1,22 @@
+#book-picture{
+    margin-left: 5%;
+    margin-top: 4%;
+    position: relative;
+    width: 22vw;
+    float: left;
+}
+
+#book-title{
+    margin-left: 5vw;
+    margin-top: 15%;
+    font-size: 3vw;
+}
+
+#book-div > * {
+    display: inline;
+    vertical-align: top;
+}
+
+#book-descriptors-div {
+    float: left;
+}

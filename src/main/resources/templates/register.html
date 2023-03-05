@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="javascript/common.js"></script>
-    <script src="javascript/index.js"></script>
+    <script src="javascript/register.js"></script>
     <link rel="stylesheet" href="stylesheets/common.css">
-    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/register.css">
     <link rel="icon" type="image/x-icon" href="/images/home_button.png">
 </head>
 <body>
@@ -19,13 +19,21 @@
         <p id="page-title"><strong><em>Amazin Books!</em></strong></p>
         <div id="login-reg-div">
             <button class="login-reg-btn" onclick="goToLogin()"><p class="login-reg-text">login</p></button>
-            <button class="login-reg-btn" onclick="goToRegister()"><p class="login-reg-text">Register</p></button>
         </div>
     </header>
-    <p>&nbsp;&nbsp;&nbsp;&nbsp;This is our home page!</p>
-    <div id="homepage-books">
-        <button class="book-button" onclick="goToBook('1984.jpg')"><img class="book-button-img" src="images/1984.jpg" alt="Book picture not found"></button>
-        <button class="book-button" onclick="goToBook('the_mist.jpg')"><img class="book-button-img" src="images/the_mist.jpg" alt="Book picture not found"></button>
+    <div id="register-div">
+        <p>Please register</p>
+        <div>
+            <label>Username: </label>
+            <input id="username-field" type="text">
+        </div>
+        <div>
+            <label>Password: </label>
+            <input id="password-field" type="password">
+        </div>
+        <div>
+            <button onclick="attemptRegistration()">Register</button>
+        </div>
     </div>
 </body>
 </html>
