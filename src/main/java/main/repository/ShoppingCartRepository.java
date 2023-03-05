@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShoppingCartRepository extends CrudRepository<ShoppingCartModel, Integer> {
+    Iterable<ShoppingCartModel> findAll();
+    ShoppingCartModel findById(Long aLong);
 }

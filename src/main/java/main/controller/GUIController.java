@@ -85,9 +85,10 @@ public class GUIController {
      */
     @GetMapping("/cart")
     public String cartPage(Model model){
-        ShoppingCartModel cart = cartRepo.findByName("Cart1");
+        ShoppingCartModel cart = cartRepo.findById(Long.valueOf(1));
         if (cart == null){
-            cart = new ShoppingCartModel("Cart1");
+            cart = new ShoppingCartModel();
+            cart.setId(1);
             cartRepo.save(cart);
         }
         model.addAttribute("ShoppingCartModel", cart);
