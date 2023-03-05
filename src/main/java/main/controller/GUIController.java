@@ -83,21 +83,22 @@ public class GUIController {
      * @param model
      * @return cart.html
      */
-    @GetMapping("/cart")
-    public String cartPage(Model model){
-        ShoppingCartModel cart = cartRepo.findById(Long.valueOf(1));
-        if (cart == null){
-            cart = new ShoppingCartModel();
-            cart.setId(1);
-            cartRepo.save(cart);
-        }
-        model.addAttribute("ShoppingCartModel", cart);
+    //Pending Service Implimentaion
+    // @GetMapping("/cart")
+    // public String cartPage(Model model){
+    //     ShoppingCartModel cart = cartRepo.findById(Long.valueOf(1));
+    //     if (cart == null){
+    //         cart = new ShoppingCartModel();
+    //         cart.setId(1);
+    //         cartRepo.save(cart);
+    //     }
+    //     model.addAttribute("ShoppingCartModel", cart);
         
-        //Add list of orders?
+    //     //Add list of orders?
 
 
-        return "index";
-    }
+    //     return "index";
+    // }
 
 
 
@@ -108,26 +109,27 @@ public class GUIController {
      * @param model
      * @return user.html
      */
-    @GetMapping("/user")
-    public String userPage(Model model){
-        UserModel user = userRepo.findByName("User1");
-        if (user == null){
-            user = new UserModel();
-            user.setUsername("User1");
-            userRepo.save(user);
-        }
-        model.addAttribute("UserModel", user);
+    //Pending Service Implimentaion
+    // @GetMapping("/user")
+    // public String userPage(Model model){
+    //     UserModel user = userRepo.findByName("User1");
+    //     if (user == null){
+    //         user = new UserModel();
+    //         user.setUsername("User1");
+    //         userRepo.save(user);
+    //     }
+    //     model.addAttribute("UserModel", user);
         
-        //User Info
-        if ((user.getUsername()!=null) && (user.getEmail()!=null) && (user.getShippingAddress()!= null) ){
-            model.addAttribute("username", user.getUsername());
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("shipAddress", user.getShippingAddress());
-        }
+    //     //User Info
+    //     if ((user.getUsername()!=null) && (user.getEmail()!=null) && (user.getShippingAddress()!= null) ){
+    //         model.addAttribute("username", user.getUsername());
+    //         model.addAttribute("email", user.getEmail());
+    //         model.addAttribute("shipAddress", user.getShippingAddress());
+    //     }
 
 
-        return "index";
-    }
+    //     return "index";
+    // }
 
 
     

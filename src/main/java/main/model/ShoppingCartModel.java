@@ -17,7 +17,7 @@ import java.util.List;
 public class ShoppingCartModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<BookModel> bookList;
     private double priceBeforeTax;

@@ -1,11 +1,9 @@
 package main.repository;
 
 import main.model.ShoppingCartModel;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShoppingCartRepository extends CrudRepository<ShoppingCartModel, Integer> {
-    Iterable<ShoppingCartModel> findAll();
-    ShoppingCartModel findById(Long aLong);
+public interface ShoppingCartRepository extends JpaRepository<ShoppingCartModel, Long> {
 }

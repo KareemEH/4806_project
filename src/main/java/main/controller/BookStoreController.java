@@ -47,16 +47,17 @@ public class BookStoreController {
      * @param model
      * @return
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getBook(@PathVariable("bookName") String bookName, Model model) {
-        BookModel book = bookRepository.findByName(bookName);
-        if (book != null){
-            return ResponseEntity.ok().body(book);
-        } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
-        }
+    //Pending Service Implimentaion
+    // @GetMapping("/{id}")
+    // public ResponseEntity<?> getBook(@PathVariable("bookName") String bookName, Model model) {
+    //     BookModel book = bookRepository.findByName(bookName);
+    //     if (book != null){
+    //         return ResponseEntity.ok().body(book);
+    //     } else{
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
+    //     }
            
-    }
+    // }
 
     /**
      * Adding a book to database. TO be expanded upon later
@@ -83,15 +84,16 @@ public class BookStoreController {
     //     return "redirect:/books";
     // }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable ("bookName") String bookName) {
-        BookModel book = bookRepository.findByName(bookName);
-        if (book != null){
-            //Delete using services
-            return ResponseEntity.ok().body(book);
-        } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
-        }
+    //Pending Service Implimentaion
+    // @DeleteMapping("/{id}")
+    // public ResponseEntity<?> deleteBook(@PathVariable ("bookName") String bookName) {
+    //     BookModel book = bookRepository.findByName(bookName);
+    //     if (book != null){
+    //         //Delete using services
+    //         return ResponseEntity.ok().body(book);
+    //     } else{
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
+    //     }
         
-    }
+    // }
 }
