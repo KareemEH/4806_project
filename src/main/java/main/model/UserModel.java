@@ -18,7 +18,7 @@ import java.util.List;
 public class UserModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String username;
     private String email;
     private String shippingAddress;

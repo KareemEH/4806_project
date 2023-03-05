@@ -19,7 +19,7 @@ import java.util.List;
 public class OrderModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     @Temporal(TemporalType.DATE)
     private Date date;
     private Double totalAmount;
