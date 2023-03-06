@@ -19,7 +19,9 @@ function addBookButton(title){
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    addBookButton("1984");
-    addBookButton("farenheit_451");
-    addBookButton("the_mist");
+    fetch("/frontPageBooks").
+    then((payload) => payload.json()).
+    then((json) => json.forEach(element => {
+        addBookButton(element.title.toLowerCase().replace(" ", "_"));        
+    }));
 })

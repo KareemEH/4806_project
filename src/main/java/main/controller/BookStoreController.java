@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.*;
 import main.model.Credentials;
 import org.springframework.http.MediaType;
 
-// import java.util.ArrayList;
+import java.util.ArrayList;
 
-// import main.model.BookModel;
+import main.model.BookModel;
 
 @RestController
 public class BookStoreController {
@@ -28,26 +28,16 @@ public class BookStoreController {
         return "{\"success\": true}";
     }
 
-// @Id
-//     @GeneratedValue(strategy= GenerationType.AUTO)
-//     private Long id;
-//     private String isbn;
-//     private String title;
-//     private String description;
-//     private String author;
-//     private String publisher;
-//     private Float price;
-
-    // @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
-    // public ArrayList<BookModel> verifyLogin(){
-    //     //TODO implement access to the actual model
+    @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<BookModel> verifyLogin(){
+        //TODO implement access to the actual model
         
-    //     ArrayList<BookModel> books = new ArrayList<BookModel>();
-    //     books.add(new BookModel(0L, "ISBN-GHI456", "1984", "A book about technological oppression", "George Orwell", "Secker & Warburg", 14.38F));
-    //     books.add(new BookModel(1L, "ISBN-ABC789", "The Mist", "A mist rolls over a small town", "Stephen King", "Viking Press", 17.99F));
-    //     books.add(new BookModel(2L, "ISBN-DEF123", "FARENHEIT 451", "A very warm temperature", "Ray Bradbury", "Ballantine Books", 21.00F));
+        ArrayList<BookModel> books = new ArrayList<BookModel>();
+        books.add(new BookModel(0L, "ISBN-GHI456", "1984", "A book about technological oppression", "George Orwell", "Secker & Warburg", 14.38F));
+        books.add(new BookModel(1L, "ISBN-ABC789", "The Mist", "A mist rolls over a small town", "Stephen King", "Viking Press", 17.99F));
+        books.add(new BookModel(2L, "ISBN-DEF123", "FARENHEIT 451", "A very warm temperature", "Ray Bradbury", "Ballantine Books", 21.00F));
 
         
-    //     return books;
-    // }
+        return books;
+    }
 }
