@@ -9,6 +9,7 @@ import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import java.util.ArrayList;
+import java.util.List;
 import org.springframework.ui.Model;
 
 @RestController
@@ -59,23 +60,19 @@ public class BookStoreController {
     }
 
     @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<BookModel> verifyLogin(){
-        //TODO implement access to the actual model
-        
-        ArrayList<BookModel> books = new ArrayList<BookModel>();
-        books.add(new BookModel(0L, "ISBN-GHI456", "1984", "A book about technological oppression", "George Orwell", "Secker & Warburg", 14.38F));
-        books.add(new BookModel(1L, "ISBN-ABC789", "The Mist", "A mist rolls over a small town", "Stephen King", "Viking Press", 17.99F));
-        books.add(new BookModel(2L, "ISBN-DEF123", "FARENHEIT 451", "A very warm temperature", "Ray Bradbury", "Ballantine Books", 21.00F));
-
-        
-        return books;
+    public List<BookModel> frontPageBooks(){
+        return bookRepository.findAll();
     }
 
 
-    @GetMapping("")
-    public String getBooks(Model model) {
-        model.addAttribute("books", bookRepository.findAll());
-        return "books";
+    @GetMapping(value="bookByID", produces=MediaType.APPLICATION_JSON_VALUE)
+    public BookModel getBooks(@RequestParam("id") int id) {
+        for(BookModel b : bookRepository.findAll()){
+            if(b.getId() == id){
+                return b;
+            }
+        }
+        return new BookModel();
     }
 
 

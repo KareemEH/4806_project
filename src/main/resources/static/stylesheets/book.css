@@ -6,10 +6,10 @@
     float: left;
 }
 
-#book-title{
+#book-descriptors-div > p {
     margin-left: 5vw;
-    margin-top: 15%;
-    font-size: 3vw;
+    /* margin-top: 15%; */
+    font-size: 2vw;
 }
 
 #book-div > * {
@@ -19,4 +19,5 @@
 
 #book-descriptors-div {
     float: left;
+    margin-top: 5vh;
 }
