@@ -1,6 +1,7 @@
 package main.controller;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import main.model.BookModel;
 import main.model.Credentials;
@@ -8,10 +9,12 @@ import main.model.UserModel;
 import main.repository.BookRepository;
 import main.service.UserService;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 import main.model.BookModel;
@@ -19,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 @RestController
+@RequestMapping("/userAPI")
 public class BookStoreController {
 
     @Autowired
@@ -32,15 +36,15 @@ public class BookStoreController {
      * @return ResponseEntity
      */
     @PostMapping(value="/new_user", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> newUser(@PathVariable("username") String username, @PathVariable("password") String password){
+    public ResponseEntity<?> newUser(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody UserModel newUser){   
         
-        UserModel newUser = userService.createUser(username, password);
-        if (newUser != null){
-            return ResponseEntity.ok().body(newUser);
-        }else{
+        try{
+            newUser = userService.createUser(username, password);       
+        }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is taken");
         }
-           
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/userAPI").toUriString());
+        return ResponseEntity.created(uri).body(newUser);  
     }
 
 
@@ -51,27 +55,15 @@ public class BookStoreController {
      * @return ResponseEntity
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> verifyLogin(@PathVariable("username") String username, @PathVariable("password") String password){
-        UserModel user = userService.get(username, password);
-        if (user != null) {
-            return ResponseEntity.ok().body(user);
+    public String verifyLogin(@PathVariable("username") String username, @PathVariable("password") String password){
+        boolean loginSuccess = userService.verifyLogin(username, password);
+        if (loginSuccess) {
+            return  "{\"success\": true}";
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Invalid username or password");
+            return  "{\"success\": false}";
         }
         
     }
-
-        //TODO implement account creation in backend
-        // System.out.println(credentials.getUsername());
-        // System.out.println(credentials.getPassword());
-        
-        //return "{\"success\": true}";
-
-        //TODO implement account creation in backend
-        // System.out.println(credentials.getUsername());
-        // System.out.println(credentials.getPassword());
-        
-        // return "{\"success\": true}";
 
     @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
     public ArrayList<BookModel> verifyLogin(){
