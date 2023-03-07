@@ -1,45 +1,79 @@
 package main.model;
 
-import static org.junit.Assert.assertEquals;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertNull;
+
 public class OrderModelTest {
-    private BookModel book1;
-    private BookModel book2;
-    private List<BookModel> books;
-    private UserModel user;
+    private Map<BookModel, Integer> bookQuantityMap;
+    UserModel user;
     private OrderModel order;
+    private OrderModel defaultOrder;
 
     @Before
-    public void setBook(){
-        book1 = new BookModel(1L, "1234567890", "Book 1", "Description of book 1", "Author 1", "Publisher 1", 20.0f);
-        book2 = new BookModel(2L, "0987654321", "Book 2", "Description of book 2", "Author 2", "Publisher 2", 25.0f);
-        books = new ArrayList<>();
-        books.add(book1);
-        books.add(book2);
-        user = new UserModel(1L, "testUser", "testUser@gmail.com", "shippingAddress", "billingAddress", null, null);
-        order = new OrderModel(1L, new Date(), 0.0, user, books);
+    public void setUp() {
+        bookQuantityMap = new HashMap<>();
+        bookQuantityMap.put(new BookModel(), 2);
+        user = new UserModel();
+        order = new OrderModel(1L, new Date(), 20.0, user, bookQuantityMap);
+        defaultOrder = new OrderModel();
     }
+
     @After
-    public void tearDown(){
-        book1 = null;
-        book2 = null;
-        books = null;
+    public void tearDown() {
+        bookQuantityMap = null;
         user = null;
         order = null;
+        defaultOrder = null;
     }
+
     @Test
-    public void testOrderModel() {
-        assertEquals(1L, (long)order.getId());
-        assertEquals(user, order.getUser());
-        assertEquals(books, order.getBooks());
-        assertEquals(2, order.getBooks().size());
-        assertEquals("Book 1", order.getBooks().get(0).getTitle());
-        assertEquals("Book 2", order.getBooks().get(1).getTitle());
+    public void testOrderNoArgsConstructor() {
+        assertNull(defaultOrder.getId());
+        assertNull(defaultOrder.getDate());
+        assertNull(defaultOrder.getTotalAmount());
+        assertEquals(new HashMap<>(), defaultOrder.getBookQuantityMap());
+        assertNull(defaultOrder.getUser());
+    }
+
+    @Test
+    public void testOrderAllArgsConstructor() {
+        assertEquals(1L, order.getId().longValue());
+        assertNotNull(order.getDate());
+        assertEquals(20.0, order.getTotalAmount(), 0);
+        assertEquals(1, order.getBookQuantityMap().size());
+        assertNotNull(order.getUser());
+    }
+
+    @Test
+    public void testOrderSetters() {
+        UserModel user = new UserModel();
+        defaultOrder.setId(2L);
+        defaultOrder.setDate(new Date());
+        defaultOrder.setTotalAmount(25.0);
+        defaultOrder.setBookQuantityMap(bookQuantityMap);
+        defaultOrder.setUser(user);
+
+        assertEquals(2L, defaultOrder.getId().longValue());
+        assertNotNull(defaultOrder.getDate());
+        assertEquals(25.0, defaultOrder.getTotalAmount(), 0);
+        assertEquals(1, defaultOrder.getBookQuantityMap().size());
+        assertEquals(user, defaultOrder.getUser());
+    }
+
+    @Test
+    public void testOrderToString() {
+        bookQuantityMap.clear();
+        bookQuantityMap.put(new BookModel(1L, "1234567890123", "Test Book", "A test book", "Test Author", "Test Publisher", 10.0f), 2);
+        String expectedString = "Order #: 1\n" +
+                                "Date: " + order.getDate().toString() + "\n" +
+                                "Books: Test Book (2) | \n" +
+                                "Total Amount: 20.0\n";
+        assertEquals(expectedString, order.toString());
     }
 }
