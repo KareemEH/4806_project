@@ -28,6 +28,9 @@ public class BookStoreController {
     private BookRepository bookRepository;
     private UserService userService;
 
+    public BookStoreController(UserService userService){
+        this.userService = userService;
+    }
     /**
      * Sign-Up Functionality. New User is checked to see if it is invalid (already exists).
      * New User is saved into UserRepository.
@@ -35,15 +38,16 @@ public class BookStoreController {
      * @return ResponseEntity
      */
     @PostMapping(value="/new_user", produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> newUser(@PathVariable("username") String username, @PathVariable("password") String password, @RequestBody UserModel newUser){   
-        
+    public String newUser(@RequestBody Credentials credentials){   
+        UserModel newUser;
         try{
-            newUser = userService.createUser(username, password);       
+            newUser = userService.createUser(credentials.getUsername(), credentials.getPassword());       
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Username is taken");
+            e.printStackTrace();
+            return "{\"success\": false}";
         }
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/userAPI").toUriString());
-        return ResponseEntity.created(uri).body(newUser);  
+        
+        return "{\"success\": true}";  
     }
 
 
@@ -54,8 +58,8 @@ public class BookStoreController {
      * @return ResponseEntity
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
-    public String verifyLogin(@PathVariable("username") String username, @PathVariable("password") String password){
-        boolean user = userService.verifyLogin(username, password);
+    public String verifyLogin(@RequestBody Credentials credentials){
+        boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
         if (user) {
             return  "{\"success\": true}";
         } else {
