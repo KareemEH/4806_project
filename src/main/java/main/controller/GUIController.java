@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import main.repository.ShoppingCartRepository;
 import main.repository.UserRepository;
+import main.repository.BookRepository;
 
 @Controller
 public class GUIController {
@@ -15,12 +16,14 @@ public class GUIController {
     @Autowired
     private final ShoppingCartRepository cartRepo;
     private final UserRepository userRepo;
+    private final BookRepository bookRepo;
 
 
-    public GUIController(ShoppingCartRepository cartRepo, UserRepository userRepo){
+    public GUIController(ShoppingCartRepository cartRepo, UserRepository userRepo, BookRepository bookRepo){
         
         this.cartRepo = cartRepo;
         this.userRepo = userRepo;
+        this.bookRepo = bookRepo;
     }
 
 
@@ -59,13 +62,13 @@ public class GUIController {
     /**
      * Book Page.
      * Selecting a book will display its information 
-     * @param title
+     * @param id
      * @param model
      * @return book.html
      */
     @GetMapping("/book")
-    public String book(@RequestParam("title") String title, Model model){
-        model.addAttribute("path", "images/" + title);
+    public String book(@RequestParam("id") Long id, Model model){
+        model.addAttribute("id", id);
         return "book";
     }
 
