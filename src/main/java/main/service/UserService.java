@@ -1,4 +1,7 @@
 package main.service;
 
-public class UserService {
+public interface UserService {
+
+    void createUser(String username,String password);
+    boolean verifyLogin(String username, String password);
 }
