@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 @RestController
-@RequestMapping("/userAPI")
 public class BookStoreController {
 
     @Autowired
@@ -56,8 +55,8 @@ public class BookStoreController {
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
     public String verifyLogin(@PathVariable("username") String username, @PathVariable("password") String password){
-        boolean loginSuccess = userService.verifyLogin(username, password);
-        if (loginSuccess) {
+        boolean user = userService.verifyLogin(username, password);
+        if (user) {
             return  "{\"success\": true}";
         } else {
             return  "{\"success\": false}";
