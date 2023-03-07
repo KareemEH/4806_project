@@ -21,6 +21,19 @@ public class CartController {
         return "books";
     }
 
+
+    /**
+     * Adding a book to database. TO be expanded upon later
+     * @param book
+     * @return
+     */
+    @PostMapping("")
+    public String addBook(@ModelAttribute BookModel book) {
+        bookRepository.save(book);
+        return "redirect:/books";
+    }
+
+
     /**
      * Update to use service instead
      * @param bookName
@@ -39,16 +52,6 @@ public class CartController {
            
     // }
 
-    /**
-     * Adding a book to database. TO be expanded upon later
-     * @param book
-     * @return
-     */
-    @PostMapping("")
-    public String addBook(@ModelAttribute BookModel book) {
-        bookRepository.save(book);
-        return "redirect:/books";
-    }
 
     //Pending Service Implimentaion
     // @DeleteMapping("/{id}")
