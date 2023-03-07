@@ -34,7 +34,6 @@ public class BookStoreController {
         try{
             newUser = userService.createUser(credentials.getUsername(), credentials.getPassword());       
         }catch (Exception e){
-            e.printStackTrace();
             return "{\"success\": false}";
         }
         
@@ -50,12 +49,13 @@ public class BookStoreController {
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
     public String verifyLogin(@RequestBody Credentials credentials){
-        boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
-        if (user) {
+        
+        try {
+            boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
             return  "{\"success\": true}";
-        } else {
+        } catch (Exception e) {
             return  "{\"success\": false}";
-        }
+        } 
         
     }
 
