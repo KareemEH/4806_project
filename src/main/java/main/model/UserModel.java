@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-
 @Entity
 @Table(name = "Users")
 @Getter
@@ -20,6 +19,7 @@ public class UserModel implements Serializable {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private String username;
+    private String password;
     private String email;
     private String shippingAddress;
     private String billingAddress;
@@ -27,6 +27,12 @@ public class UserModel implements Serializable {
     private ShoppingCartModel shoppingCart;
     @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<OrderModel> orderList;
+
+    public UserModel(String username, String password){
+        this.username = username;
+        this.password = password;
+    }
+
     // toString
     public String toString() {
         return "User #: " + id + "\n" + "Username: " + username + "\n" + "Billing Address: " + billingAddress + "\n" + "Shipping Address: " + shippingAddress + "\n";
