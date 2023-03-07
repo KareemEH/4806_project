@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import main.model.BookModel;
 import main.repository.BookRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 
@@ -33,36 +31,4 @@ public class CartController {
         return "redirect:/books";
     }
 
-
-    /**
-     * Update to use service instead
-     * @param bookName
-     * @param model
-     * @return
-     */
-    //Pending Service Implimentaion
-    // @GetMapping("/{id}")
-    // public ResponseEntity<?> getBook(@PathVariable("bookName") String bookName, Model model) {
-    //     BookModel book = bookRepository.findByName(bookName);
-    //     if (book != null){
-    //         return ResponseEntity.ok().body(book);
-    //     } else{
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
-    //     }
-           
-    // }
-
-
-    //Pending Service Implimentaion
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> deleteBook(@PathVariable ("bookName") String bookName) {
-    //     BookModel book = bookRepository.findByName(bookName);
-    //     if (book != null){
-    //         //Delete using services
-    //         return ResponseEntity.ok().body(book);
-    //     } else{
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
-    //     }
-        
-    // }
 }

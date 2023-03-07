@@ -1,24 +1,14 @@
 package main.controller;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import main.model.BookModel;
 import main.model.Credentials;
 import main.model.UserModel;
 import main.repository.BookRepository;
 import main.service.UserService;
-
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-
-import java.net.URI;
 import java.util.ArrayList;
-
-import main.model.BookModel;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 
 @RestController
@@ -99,53 +89,6 @@ public class BookStoreController {
         bookRepository.save(book);
         return "redirect:/books";
     }
-
-
-
-    /**
-     * Update to use service instead
-     * @param bookName
-     * @param model
-     * @return
-     */
-    //Pending Service Implimentaion
-    // @GetMapping("/{id}")
-    // public ResponseEntity<?> getBook(@PathVariable("bookName") String bookName, Model model) {
-    //     BookModel book = bookRepository.findByName(bookName);
-    //     if (book != null){
-    //         return ResponseEntity.ok().body(book);
-    //     } else{
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
-    //     }
-           
-    // }
-
-    // @PutMapping("/{id}")
-    // public String updateBook(@PathVariable Long id, @ModelAttribute BookModel book) {
-    //     BookModel existingBook = bookRepository.findById(id);
-    //     if (existingBook != null) {
-    //         existingBook.setTitle(book.getTitle());
-    //         existingBook.setDescription(book.getDescription());
-    //         existingBook.setAuthor(book.getAuthor());
-    //         existingBook.setPublisher(book.getPublisher());
-    //         existingBook.setPrice(book.getPrice());
-    //         bookRepository.save(existingBook);
-    //     }
-    //     return "redirect:/books";
-    // }
-
-    //Pending Service Implimentaion
-    // @DeleteMapping("/{id}")
-    // public ResponseEntity<?> deleteBook(@PathVariable ("bookName") String bookName) {
-    //     BookModel book = bookRepository.findByName(bookName);
-    //     if (book != null){
-    //         //Delete using services
-    //         return ResponseEntity.ok().body(book);
-    //     } else{
-    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No book found with name of " + bookName);
-    //     }
-        
-    // }
 
 
 }
