@@ -8,7 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "Orders")
@@ -26,13 +27,17 @@ public class OrderModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserModel user;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<BookModel> books;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "OrderBooks", joinColumns = @JoinColumn(name = "order_id"))
+    @MapKeyJoinColumn(name = "book_id")
+    @Column(name = "quantity")
+    private Map<BookModel, Integer> bookQuantityMap = new HashMap<>();
     public String toString() {
         String str = "";
-        for (int i = 0; i < books.size(); i++) {
-            String book = books.get(i).getTitle();
-            str += book + " | ";
+        for (Map.Entry<BookModel, Integer> entry : bookQuantityMap.entrySet()) {
+            String book = entry.getKey().getTitle();
+            Integer quantity = entry.getValue();
+            str += book + " (" + quantity + ") | ";
         }
         return "Order #: " + id + "\n" + "Date: " + date.toString() + "\n" + "Books: " + str + "\n" + "Total Amount: " + totalAmount + "\n";
     }
