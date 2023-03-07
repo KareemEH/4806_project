@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name = "ShoppingCarts")
@@ -18,22 +19,21 @@ public class ShoppingCartModel implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    private List<BookModel> bookList;
-    private double priceBeforeTax;
-    private double priceAfterTax;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "ShoppingCartBooks", joinColumns = @JoinColumn(name = "shopping_cart_id"))
+    @MapKeyJoinColumn(name = "book_id")
+    @Column(name = "quantity")
+    private Map<BookModel, Integer> bookQuantityMap = new HashMap<>();
+    private double totalAmount;
 
     // toString
     public String toString() {
-        return "Shopping Cart #: " + id + "\n" + "Price Before Tax: $" + priceBeforeTax + "\n" + "Price After Tax: $" + priceAfterTax + "\n";
-    }
-
-    public void calculateTotalPrice() {
-        double total = 0.0;
-        for (BookModel book : bookList) {
-            total += book.getPrice();
+        String str = "";
+        for (Map.Entry<BookModel, Integer> entry : bookQuantityMap.entrySet()) {
+            String book = entry.getKey().getTitle();
+            Integer quantity = entry.getValue();
+            str += book + " (" + quantity + ") | ";
         }
-        this.priceBeforeTax = total;
-        this.priceAfterTax = total * 1.13;
+        return "Shopping Cart #: " + id + "\n" + "Books: " + str + "\n" + "Total Amount: $" + totalAmount + "\n";
     }
 }
