@@ -26,6 +26,8 @@ You can run the docker image by using `docker run -i -t --publish 127.0.0.1:8080
 
 Tests can be run with `mvn test`
 
+Front-end unit tests can be run by opening `jasmine/SpecRunner.html` in a browser
+
 ![Java CI badge not found](https://github.com/Brandon-999/4806_project/actions/workflows/maven-tests.yml/badge.svg)
 
 
