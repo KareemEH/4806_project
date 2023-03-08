@@ -15,10 +15,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserModel createUser(String username, String password) {
+    public void createUser(String username, String password) {
         UserModel userModel = new UserModel(username, password);
         userRepo.save(userModel);
-        return userModel;
     }
 
     @Override
