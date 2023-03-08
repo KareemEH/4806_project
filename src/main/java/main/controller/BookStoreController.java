@@ -8,9 +8,7 @@ import main.repository.BookRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import java.util.ArrayList;
 import java.util.List;
-import org.springframework.ui.Model;
 
 @RestController
 public class BookStoreController {
