@@ -52,7 +52,13 @@ public class BookStoreController {
         
         try {
             boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
-            return  "{\"success\": true}";
+            if(user){
+                return  "{\"success\": true}";
+            }
+            else{
+                return  "{\"success\": false}";
+            }
+
         } catch (Exception e) {
             return  "{\"success\": false}";
         } 
