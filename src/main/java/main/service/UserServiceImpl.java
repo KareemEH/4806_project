@@ -15,9 +15,14 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void createUser(String username, String password) {
-        UserModel userModel = new UserModel(username, password);
-        userRepo.save(userModel);
+    public void createUser(String username, String password) throws Exception {
+        if(userRepo.findByUsername(username) == null){
+            UserModel userModel = new UserModel(username, password);
+            userRepo.save(userModel);
+        }
+        else{
+            throw new Exception("Username already exists in repository");
+        }
     }
 
     @Override
