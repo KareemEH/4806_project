@@ -9,6 +9,10 @@ function goToLogin(bookName){
     document.location.href = `/login`; 
 }
 
+function goToCart(){
+    document.location.href = `/cart`; 
+}
+
 function goToRegister(bookName){
     document.location.href = `/register`; 
 }
