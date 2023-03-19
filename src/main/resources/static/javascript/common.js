@@ -89,6 +89,7 @@ function attemptLogin(){
     })
     .then((obj) => {
         if(obj.success){
+            setLoggedIn(username, password)
             alert("Successful login!");
             document.location.href = "/";
         }
@@ -97,6 +98,12 @@ function attemptLogin(){
             alert("Login failure (server side)");
         }
     });
+}
+
+function setLoggedIn(username, password){
+    sessionStorage.setItem("loggedIn", "true");
+    sessionStorage.setItem("username", username);
+    sessionStorage.setItem("password", password);
 }
 
 async function registerNewUser(username, password){
@@ -139,4 +146,16 @@ function attemptRegistration(){
             alert("registration error (server side)");
         }
     });
+}
+
+
+function logout(){
+    setLoggedOut();
+    document.location.href = "/";
+}
+
+function setLoggedOut(){
+    sessionStorage.setItem("loggedIn", "false");
+    sessionStorage.setItem("username", '');
+    sessionStorage.setItem("password", '');
 }
