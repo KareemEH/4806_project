@@ -13,6 +13,12 @@
     height: 72vh;
 }
 
-#cart-btn {
+#cart-img {
     width: 10vw;
+}
+
+#cart-btn {
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
 }

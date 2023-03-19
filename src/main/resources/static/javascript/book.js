@@ -1,5 +1,5 @@
 
-
+let book_id;
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,8 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
     }
+    else{
+        const buy_btn = document.getElementById("buy-btn");
+        buy_btn.toggleAttribute("hidden");
+    }
     
-    const book_id = document.getElementById("book-id");
+    book_id = document.getElementById("book-id");
     const book_title = document.getElementById("book-title");
     const book_isbn = document.getElementById("book-isbn");
     const book_description = document.getElementById("book-description");
@@ -36,3 +40,22 @@ document.addEventListener("DOMContentLoaded", () => {
         book_price.textContent = "Price: $" + json.price;
     });
 });
+
+
+function addBookToCart(){
+    let quantity = prompt("How many would you like", 1);
+    console.log("buying " + quantity + " books!");
+
+    // TODO call backend to add to cart
+    // use book_id attribute
+
+    let success = true;
+
+    if(success){
+        alert("added successfully");
+        document.location.href = '/cart';
+    }
+    else{
+        alert("failure to add to cart");
+    }
+}

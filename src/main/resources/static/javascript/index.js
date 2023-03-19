@@ -15,4 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
     }
+    else{
+        const cart_btn = document.getElementById("cart-btn");
+        cart_btn.toggleAttribute("hidden");
+    }
 })
