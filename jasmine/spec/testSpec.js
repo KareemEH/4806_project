@@ -12,14 +12,6 @@ describe('frontEndTests', function() {
     expect(validUsername("")).toBeFalse();
   });
 
-  it('Test getting Usernames', function() {
-    expect(getUsername()).toEqual("testUsername");
-  });
-
-  it('Test getting Password', function() {
-    expect(getPassword()).toEqual("testPassword");
-  });
-
   it('Test that fetch is called when logging in', function() {
       fetch = jasmine.createSpy();
       login("testUser", "testPass");
@@ -66,5 +58,22 @@ describe('frontEndTests', function() {
       },
       body: JSON.stringify({username: "", password: ""})
     });
+  });
+});
+
+describe('Test session storage on log in/out', function() {
+  it('Should end up logged out', function() {
+    setLoggedOut();
+    expect(sessionStorage.loggedIn).toEqual("false");
+  });
+
+  it('Should end up logged in', function() {
+    setLoggedIn("username", "password");
+    expect(sessionStorage.loggedIn).toEqual("true");
+  });
+
+  it('Should end up logged out again', function() {
+    setLoggedOut();
+    expect(sessionStorage.loggedIn).toEqual("false");
   });
 });

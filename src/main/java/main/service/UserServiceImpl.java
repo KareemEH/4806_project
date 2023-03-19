@@ -28,7 +28,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean verifyLogin(String username, String password){
         UserModel userModel = userRepo.findByUsername(username);
-        return(userModel.getPassword().equals(password));
+        if(userModel != null){
+            return(userModel.getPassword().equals(password));
+        }
+        return false;
     }
 
 }
