@@ -1,0 +1,27 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: bookstore
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - bookstore_network
+  db:
+    image: mysql/mysql-server:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: book_store
+      MYSQL_USER: group22
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    networks:
+      - bookstore_network
+networks:
+  bookstore_network:
+    driver: bridge
