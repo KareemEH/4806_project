@@ -1,22 +1,3 @@
-function goToBook(id){
-    document.location.href = `/book?id=${id}`; 
-}
-
-function addBookButton(element){
-    const button = document.createElement('button');
-    button.classList.add("book-button");
-    button.setAttribute("onclick", `goToBook(${element.id})`);
-
-    const img = document.createElement('img');
-    img.classList.add("book-button-img");
-    img.setAttribute("src", `images/${element.title.toLowerCase().replace(" ", "_")}.jpg`);
-    img.setAttribute("alt", "Book picture not found");
-
-    button.appendChild(img);
-
-    const homepage_books = document.getElementById("homepage-books");
-    homepage_books.appendChild(button);
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     fetch("/frontPageBooks").
@@ -24,4 +5,14 @@ document.addEventListener("DOMContentLoaded", () => {
     then((json) => json.forEach(element => {
         addBookButton(element);        
     }));
+
+    if(sessionStorage.getItem("loggedIn") === 'true'){
+        const btns = document.getElementsByClassName('login-reg-btn');
+        Array.from(btns).map((btn) => btn.setAttribute("hidden", 'true'));
+
+        const log_out_btn = document.getElementById("log-out-btn");
+        log_out_btn.toggleAttribute("hidden");
+        const log_out_text = document.getElementById("log-out-text");
+        log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
+    }
 })

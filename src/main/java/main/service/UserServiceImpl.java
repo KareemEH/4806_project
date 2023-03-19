@@ -15,16 +15,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserModel createUser(String username, String password) {
-        UserModel userModel = new UserModel(username, password);
-        userRepo.save(userModel);
-        return userModel;
+    public void createUser(String username, String password) throws Exception {
+        if(userRepo.findByUsername(username) == null){
+            UserModel userModel = new UserModel(username, password);
+            userRepo.save(userModel);
+        }
+        else{
+            throw new Exception("Username already exists in repository");
+        }
     }
 
     @Override
     public boolean verifyLogin(String username, String password){
         UserModel userModel = userRepo.findByUsername(username);
-        return(userModel.getPassword().equals(password));
+        if(userModel != null){
+            return(userModel.getPassword().equals(password));
+        }
+        return false;
     }
 
 }

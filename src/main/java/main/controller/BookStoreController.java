@@ -3,7 +3,6 @@ package main.controller;
 import org.springframework.web.bind.annotation.*;
 import main.model.BookModel;
 import main.model.Credentials;
-import main.model.UserModel;
 import main.repository.BookRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ public class BookStoreController {
 
     @Autowired
     private BookRepository bookRepository;
-    private UserService userService;
+    private final UserService userService;
 
     public BookStoreController(UserService userService){
         this.userService = userService;
@@ -23,14 +22,12 @@ public class BookStoreController {
     /**
      * Sign-Up Functionality. New User is checked to see if it is invalid (already exists).
      * New User is saved into UserRepository.
-     * @param user
      * @return ResponseEntity
      */
     @PostMapping(value="/new_user", produces=MediaType.APPLICATION_JSON_VALUE)
-    public String newUser(@RequestBody Credentials credentials){   
-        UserModel newUser;
+    public String newUser(@RequestBody Credentials credentials){
         try{
-            newUser = userService.createUser(credentials.getUsername(), credentials.getPassword());       
+            userService.createUser(credentials.getUsername(), credentials.getPassword());
         }catch (Exception e){
             return "{\"success\": false}";
         }
@@ -41,20 +38,16 @@ public class BookStoreController {
 
     /**
      * Log-in Functionality. Using username and password, a matching user is requested.
-     * @param username
-     * @param password
      * @return ResponseEntity
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
     public String verifyLogin(@RequestBody Credentials credentials){
-        
-        try {
-            boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+
+        boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+        if (user){
             return  "{\"success\": true}";
-        } catch (Exception e) {
-            return  "{\"success\": false}";
-        } 
-        
+        }
+        return  "{\"success\": false}";
     }
 
     @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -76,8 +69,6 @@ public class BookStoreController {
 
     /**
      * Adding a book to database. TO be expanded upon later
-     * @param book
-     * @return
      */
     @PostMapping("")
     public String addBook(@ModelAttribute BookModel book) {

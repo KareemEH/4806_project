@@ -3,6 +3,16 @@
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    if(sessionStorage.getItem("loggedIn") === 'true'){
+        const btns = document.getElementsByClassName('login-reg-btn');
+        Array.from(btns).map((btn) => btn.setAttribute("hidden", 'true'));
+
+        const log_out_btn = document.getElementById("log-out-btn");
+        log_out_btn.toggleAttribute("hidden");
+        const log_out_text = document.getElementById("log-out-text");
+        log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
+    }
+    
     const book_id = document.getElementById("book-id");
     const book_title = document.getElementById("book-title");
     const book_isbn = document.getElementById("book-isbn");
