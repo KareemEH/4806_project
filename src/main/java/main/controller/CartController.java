@@ -26,7 +26,7 @@ public class CartController {
     }
 
 
-    @GetMapping(value="bookByID", produces= MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="userCart", produces= MediaType.APPLICATION_JSON_VALUE)
     public Map<BookModel, Integer> getBooks(@RequestParam("userid") long userid) {
         UserModel user = userRepository.findById(userid);
         Map<BookModel, Integer> Books = user.getShoppingCart().getBookQuantityMap();
