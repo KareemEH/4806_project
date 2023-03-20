@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import main.model.BookModel;
 import main.repository.BookRepository;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.Map;
 
 @RestController
@@ -27,8 +27,8 @@ public class CartController {
 
 
     @GetMapping(value="userCart", produces= MediaType.APPLICATION_JSON_VALUE)
-    public Map<BookModel, Integer> getBooks(@RequestParam("userid") long userid) {
-        UserModel user = userRepository.findById(userid);
+    public Map<BookModel, Integer> getBooks(@RequestParam("userid") Long userid) {
+        UserModel user = userRepository.findAllById(Arrays.asList(userid)).get(0);
         Map<BookModel, Integer> Books = user.getShoppingCart().getBookQuantityMap();
 
         return Books;
