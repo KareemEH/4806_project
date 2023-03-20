@@ -34,4 +34,10 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
+    //Stub
+    @Override
+    public boolean addtoCart(long userid, long bookid, int quantity){
+        return true;
+    }
+
 }
