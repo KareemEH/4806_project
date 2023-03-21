@@ -31,6 +31,7 @@ public class UserModel implements Serializable {
     public UserModel(String username, String password){
         this.username = username;
         this.password = password;
+        this.shoppingCart = new ShoppingCartModel();
     }
 
     // toString
