@@ -23,8 +23,10 @@ public class BookStoreController {
     private final UserService userService;
 
     @Autowired
-    public BookStoreController(UserService userService){
+    public BookStoreController(UserService userService, BookRepository bookRepository, UserRepository userRepository){
         this.userService = userService;
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
     /**
      * Sign-Up Functionality. New User is checked to see if it is invalid (already exists).

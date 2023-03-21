@@ -21,8 +21,10 @@ public class CartController {
     private UserRepository userRepository;
 
     @Autowired
-    public CartController(UserService userService) {
+    public CartController(UserService userService, BookRepository bookRepository, UserRepository userRepository) {
         this.userService = userService;
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
 
 
@@ -40,7 +42,7 @@ public class CartController {
      * @param bookid
      * @return
      */
-    @PostMapping("")
+    @PostMapping("/tocart")
     public String addBook(@RequestParam("userid") long userid, @RequestParam("bookid") long bookid, @RequestParam("quantity") int quantity) {
         boolean addTo = userService.addtoCart(userid,bookid, quantity);
         if (addTo){
