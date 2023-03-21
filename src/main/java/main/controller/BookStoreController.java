@@ -1,5 +1,7 @@
 package main.controller;
 
+import main.model.UserModel;
+import main.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 import main.model.BookModel;
 import main.model.Credentials;
@@ -7,17 +9,24 @@ import main.repository.BookRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookStoreController {
 
-    @Autowired
+
     private BookRepository bookRepository;
+    private UserRepository userRepository;
     private final UserService userService;
 
-    public BookStoreController(UserService userService){
+    @Autowired
+    public BookStoreController(UserService userService, BookRepository bookRepository, UserRepository userRepository){
         this.userService = userService;
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
     /**
      * Sign-Up Functionality. New User is checked to see if it is invalid (already exists).
@@ -38,14 +47,17 @@ public class BookStoreController {
 
     /**
      * Log-in Functionality. Using username and password, a matching user is requested.
+     *
      * @return ResponseEntity
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
     public String verifyLogin(@RequestBody Credentials credentials){
 
-        boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
-        if (user){
-            return  "{\"success\": true}";
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+        if (valid){
+            UserModel user = userRepository.findByUsername(credentials.getUsername());
+
+            return "{\"success\": true, \"id\":"+user.getId()+"}";
         }
         return  "{\"success\": false}";
     }
