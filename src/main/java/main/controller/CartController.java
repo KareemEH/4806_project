@@ -43,8 +43,8 @@ public class CartController {
      * @return
      */
     @PostMapping("/tocart")
-    public String addBook(@RequestParam("userid") long userid, @RequestParam("bookid") long bookid, @RequestParam("quantity") int quantity) {
-        boolean addTo = userService.addtoCart(userid,bookid, quantity);
+    public String addBook(@RequestParam("userid") Long userid, @RequestParam("bookid") Long bookid, @RequestParam("quantity") int quantity) {
+        boolean addTo = userService.addToCart(userid,bookid, quantity);
         if (addTo){
             return  "{\"success\": true}";
         }
