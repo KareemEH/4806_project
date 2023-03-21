@@ -9,17 +9,14 @@ import main.repository.BookRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class BookStoreController {
 
 
-    private BookRepository bookRepository;
-    private UserRepository userRepository;
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
@@ -60,6 +57,15 @@ public class BookStoreController {
             return "{\"success\": true, \"id\":"+user.getId()+"}";
         }
         return  "{\"success\": false}";
+    }
+
+    @GetMapping(value="getUserByUsername", produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel getUser(@RequestParam("username") String username) {
+        UserModel User = userRepository.findByUsername(username);
+        if(User.getUsername().equals(username)){
+            return User;
+        }
+        return new UserModel();
     }
 
     @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)

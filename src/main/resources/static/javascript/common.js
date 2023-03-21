@@ -78,6 +78,8 @@ async function login(username, password){
 function attemptLogin(){
     username = getUsername();
     password = getPassword();
+    getUserId(username);
+    user_id = sessionStorage.getItem("userId");
 
     if(!validUsername || !validPassword()){
         // TODO more graceful failiure
@@ -122,6 +124,14 @@ async function registerNewUser(username, password){
             password,
         }),
     })
+}
+
+function getUserId(username){
+    fetch("/getUserByUsername?username=" + username).
+    then((payload) => payload.json()).
+    then((json) => {
+        sessionStorage.setItem("userId", json.id);
+    });
 }
 
 function attemptRegistration(){
