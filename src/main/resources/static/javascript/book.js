@@ -1,5 +1,5 @@
 
-
+let book_id;
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -12,8 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
     }
+    else{
+        const buy_btn = document.getElementById("buy-btn");
+        buy_btn.toggleAttribute("hidden");
+    }
     
-    const book_id = document.getElementById("book-id");
+    book_id = document.getElementById("book-id");
     const book_title = document.getElementById("book-title");
     const book_isbn = document.getElementById("book-isbn");
     const book_description = document.getElementById("book-description");
@@ -36,3 +40,37 @@ document.addEventListener("DOMContentLoaded", () => {
         book_price.textContent = "Price: $" + json.price;
     });
 });
+
+async function addToCart(user_id, book_id, quantity){
+    return fetch("/addToCart?userid=" + user_id + "&bookId=" + book_id + "&quantity=" + quantity, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            user_id,
+            book_id,
+            quantity,
+        }),
+    })
+}
+
+function addBookToCart() {
+    let user_id = sessionStorage.getItem("userId")
+    let book_id = document.getElementById("book-id").textContent;
+    let quantity = prompt("How many would you like", 1);
+
+    addToCart(user_id, book_id, quantity)
+        .then((resp) => {
+            return resp.json();
+        })
+        .then((obj) => {
+            if (obj.success) {
+                alert(quantity + " books were added successfully!");
+            } else {
+                console.log("Could not add book to cart (server side)");
+                alert("Could not add book to cart (server side)");
+            }
+        });
+}

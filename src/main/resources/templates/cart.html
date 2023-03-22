@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="javascript/common.js"></script>
-    <script src="javascript/book.js"></script>
+    <script src="javascript/cart.js"></script>
     <link rel="stylesheet" href="stylesheets/common.css">
-    <link rel="stylesheet" href="stylesheets/book.css">
-    <link rel="stylesheet" href="stylesheets/index.css">
+    <link rel="stylesheet" href="stylesheets/cart.css">
     <link rel="icon" type="image/x-icon" href="/images/home_button.png">
 </head>
 <body>
@@ -21,22 +20,11 @@
         <div id="login-reg-div">
             <button class="login-reg-btn" onclick="goToLogin()"><p class="login-reg-text">login</p></button>
             <button class="login-reg-btn" onclick="goToRegister()"><p class="login-reg-text">Register</p></button>
-            <button class="login-reg-btn" onclick="logout()" id="log-out-btn" hidden><p id="log-out-text" class="login-reg-text">Log out</p></button>
+            <button class="login-reg-btn" onclick="logout()" id="log-out-btn" hidden><p class="login-reg-text" id="log-out-text">Log out</p></button>
         </div>
     </header>
-    <p id="book-id" hidden th:text="${id}"></p>
-    <div id="book-div">
-        <img id="book-picture" alt="Book picture not found">
-        <div id="book-descriptors-div">
-            <p id="book-title"></p>
-            <p id="book-isbn"></p>
-            <p id="book-description"></p>
-            <p id="book-author"></p>
-            <p id="book-publisher"></p>
-            <p id="book-price"></p>
-            <button id="buy-btn" onclick="addBookToCart()"><p>Add to Cart</p></button>
-        </div>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;This is your Cart!</p>
+    <div id="cart-items">
     </div>
-    <button id="cart-btn" onclick="goToCart()" hidden><img id="cart-img" src="images/cart2.png" alt="cart-btn not found"></button>
 </body>
 </html>

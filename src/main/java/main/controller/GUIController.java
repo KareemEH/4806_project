@@ -72,5 +72,9 @@ public class GUIController {
         return "book";
     }
 
-
+    // cart page
+    @GetMapping("/cart")
+    public String cart(){
+        return "cart";
+    }
 }
