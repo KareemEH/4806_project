@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const cart_btn = document.getElementById("cart-btn");
         cart_btn.removeAttribute("hidden");
 
+        const order_btn = document.getElementById("order-btn");
+        order_btn.removeAttribute("hidden");
+
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
     }
