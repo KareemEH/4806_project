@@ -65,4 +65,13 @@ public class CartController {
         return "{\"success\": false}";
     }
 
+    @PostMapping("/checkoutCart")
+    public String checkout(@RequestParam("userid") Long userid) {
+        boolean orderMade = userService.createOrder(userid);
+        if (orderMade){
+            return  "{\"success\": true}";
+        }
+        return  "{\"success\": false}";
+    }
+
 }
