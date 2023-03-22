@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      db:
+      mysql:
         image: mysql/mysql-server:latest
         container_name: mysql
         restart: always
@@ -17,7 +17,7 @@ jobs:
           MYSQL_USER: group22
           MYSQL_PASSWORD: password
         ports:
-          - "3306:3306"
+          - 3306:3306
 
     steps:
       - uses: actions/checkout@v3
