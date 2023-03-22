@@ -11,7 +11,7 @@ jobs:
         image: mysql/mysql-server:latest
         container_name: mysql
         restart: always
-        environment:
+        env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: book_store
           MYSQL_USER: group22
