@@ -1,5 +1,18 @@
+document.addEventListener("DOMContentLoaded", () => {
+    if(sessionStorage.getItem("loggedIn") === 'true'){
+        const btns = document.getElementsByClassName('login-reg-btn');
+        Array.from(btns).map((btn) => btn.setAttribute("hidden", 'true'));
 
+        const log_out_btn = document.getElementById("log-out-btn");
+        log_out_btn.removeAttribute("hidden");
 
+        const cart_btn = document.getElementById("cart-btn");
+        cart_btn.removeAttribute("hidden");;
+
+        const log_out_text = document.getElementById("log-out-text");
+        log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
+    }
+})
 
 function goHome(){
     document.location.href = "/"; 
@@ -7,6 +20,10 @@ function goHome(){
 
 function goToLogin(bookName){
     document.location.href = `/login`; 
+}
+
+function goToCart(){
+    document.location.href = `/cart`; 
 }
 
 function goToRegister(bookName){
@@ -74,6 +91,8 @@ async function login(username, password){
 function attemptLogin(){
     username = getUsername();
     password = getPassword();
+    getUserId(username);
+    user_id = sessionStorage.getItem("userId");
 
     if(!validUsername || !validPassword()){
         // TODO more graceful failiure
@@ -120,6 +139,14 @@ async function registerNewUser(username, password){
     })
 }
 
+function getUserId(username){
+    fetch("/getUserByUsername?username=" + username).
+    then((payload) => payload.json()).
+    then((json) => {
+        sessionStorage.setItem("userId", json.id);
+    });
+}
+
 function attemptRegistration(){
     username = getUsername();
     password = getPassword();
@@ -158,4 +185,5 @@ function setLoggedOut(){
     sessionStorage.setItem("loggedIn", "false");
     sessionStorage.setItem("username", '');
     sessionStorage.setItem("password", '');
+    sessionStorage.setItem("userId", '');
 }

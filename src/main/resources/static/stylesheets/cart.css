@@ -1,4 +1,4 @@
-#homepage-books {
+#cart-items {
     margin-left: 5vw;
 }
 
@@ -11,14 +11,4 @@
 
 .book-button-img {
     height: 72vh;
-}
-
-#cart-img {
-    width: 10vw;
-}
-
-#cart-btn {
-    position: fixed;
-    bottom: 0px;
-    right: 0px;
 }

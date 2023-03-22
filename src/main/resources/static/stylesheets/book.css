@@ -12,6 +12,16 @@
     font-size: 2vw;
 }
 
+#book-descriptors-div > button {
+    margin-left: 5vw;
+    /* margin-top: 15%; */
+}
+
+#book-descriptors-div > button > p {
+    font-size: 2vw;
+    margin: 0px;
+}
+
 #book-div > * {
     display: inline;
     vertical-align: top;

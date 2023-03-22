@@ -1,5 +1,7 @@
 package main.controller;
 
+import main.model.UserModel;
+import main.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 import main.model.BookModel;
 import main.model.Credentials;
@@ -12,12 +14,16 @@ import java.util.List;
 @RestController
 public class BookStoreController {
 
-    @Autowired
-    private BookRepository bookRepository;
+
+    private final BookRepository bookRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
 
-    public BookStoreController(UserService userService){
+    @Autowired
+    public BookStoreController(UserService userService, BookRepository bookRepository, UserRepository userRepository){
         this.userService = userService;
+        this.bookRepository = bookRepository;
+        this.userRepository = userRepository;
     }
     /**
      * Sign-Up Functionality. New User is checked to see if it is invalid (already exists).
@@ -38,16 +44,28 @@ public class BookStoreController {
 
     /**
      * Log-in Functionality. Using username and password, a matching user is requested.
+     *
      * @return ResponseEntity
      */
     @PostMapping(value="/verify_login", produces=MediaType.APPLICATION_JSON_VALUE)
     public String verifyLogin(@RequestBody Credentials credentials){
 
-        boolean user = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
-        if (user){
-            return  "{\"success\": true}";
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+        if (valid){
+            UserModel user = userRepository.findByUsername(credentials.getUsername());
+
+            return "{\"success\": true, \"id\":"+user.getId()+"}";
         }
         return  "{\"success\": false}";
+    }
+
+    @GetMapping(value="getUserByUsername", produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel getUser(@RequestParam("username") String username) {
+        UserModel User = userRepository.findByUsername(username);
+        if(User.getUsername().equals(username)){
+            return User;
+        }
+        return new UserModel();
     }
 
     @GetMapping(value="/frontPageBooks", produces=MediaType.APPLICATION_JSON_VALUE)
