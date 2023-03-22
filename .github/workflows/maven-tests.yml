@@ -6,18 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql/mysql-server:latest
-        container_name: mysql
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: book_store
-          MYSQL_USER: group22
-          MYSQL_PASSWORD: password
-        ports:
-          - 3306:3306
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -25,11 +13,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Start MySQL
-        run: docker start mysql
+      - name: Start MySQL container
+        run: docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=book_store -e MYSQL_USER=group22 -e MYSQL_PASSWORD=password mysql/mysql-server:latest
       - name: Wait for MySQL to start
-        run: docker wait mysql
-      - name: Build and test with Maven
-        run: mvn -B verify
-      - name: Stop MySQL
+        run: sleep 30s
+      - name: TEST with Maven
+        run: mvn test
+      - name: Stop MySQL container
         run: docker stop mysql
