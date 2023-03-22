@@ -10,7 +10,6 @@ jobs:
       mysql:
         image: mysql/mysql-server:latest
         container_name: mysql
-        restart: always
         env:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: book_store
