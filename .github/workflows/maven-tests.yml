@@ -1,10 +1,29 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: book_store
+          MYSQL_USER: group22
+          MYSQL_PASSWORD: password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       - uses: actions/checkout@v3
@@ -13,5 +32,11 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: TEST with Maven
-        run: mvn test
+      - name: Start MySQL
+        run: docker start mysql
+      - name: Wait for MySQL to start
+        run: docker wait mysql
+      - name: Build and test with Maven
+        run: mvn -B verify
+      - name: Stop MySQL
+        run: docker stop mysql
