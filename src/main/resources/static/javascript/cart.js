@@ -30,7 +30,6 @@ function getUserCart(){
             const authorHeader = row.insertCell(1);
             const priceHeader = row.insertCell(2);
             const quantityHeader = row.insertCell(3);
-            const removeBook = row.insertCell(4);
             titleHeader.innerHTML = '<b>Title</b>';
             authorHeader.innerHTML = '<b>Author</b>';
             priceHeader.innerHTML = '<b>Price</b>';
@@ -57,7 +56,7 @@ function getUserCart(){
                 removeButton.innerHTML = 'Remove';
                 removeButton.addEventListener('click', () => {
                     // Handle remove button click event
-                    console.log('Remove button clicked for book', title);
+                    removeFromCart(bookArray[4], bookArray[0]);
                 });
                 actionCell.appendChild(removeButton);
             });
@@ -67,8 +66,44 @@ function getUserCart(){
             const totalHeader = row1.insertCell(0);
             const totalCell = row1.insertCell(1);
             totalHeader.innerHTML = '<b>Total Price:</b>';
-            totalCell.innerHTML = totalPrice.toFixed(2); // display total with 2 decimal places
+            totalCell.innerHTML = "$" + totalPrice.toFixed(2); // display total with 2 decimal places
 
             document.body.appendChild(table);
+        });
+}
+
+async function deleteFromCart(user_id, book_id){
+    return fetch("/deleteFromCart?userid=" + user_id + " &bookId=" + book_id, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            user_id,
+            book_id,
+        }),
+    })
+    .catch((error) => {
+        console.log("Error deleting from cart:", error);
+        throw error;
+    });
+}
+
+function removeFromCart(book_id, book_title) {
+    let user_id = sessionStorage.getItem("userId")
+
+    deleteFromCart(user_id, book_id)
+        .then((resp) => {
+            return resp.json();
+        })
+        .then((obj) => {
+            if (obj.success) {
+                alert( "Removed " + book_title + " form cart!");
+                document.location.href = "/cart";
+            } else {
+                console.log("Could not remove book from cart (server side)");
+                alert("Could not remove book from cart (server side)");
+            }
         });
 }

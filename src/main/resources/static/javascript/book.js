@@ -68,7 +68,6 @@ function addBookToCart() {
         .then((obj) => {
             if (obj.success) {
                 alert(quantity + " books were added successfully!");
-                document.location.href = "/cart";
             } else {
                 console.log("Could not add book to cart (server side)");
                 alert("Could not add book to cart (server side)");

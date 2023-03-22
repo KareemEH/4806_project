@@ -6,10 +6,8 @@ import main.model.UserModel;
 import main.repository.BookRepository;
 import main.repository.ShoppingCartRepository;
 import main.repository.UserRepository;
-import org.h2.engine.User;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.util.Map;
 import java.util.Optional;
 
@@ -54,12 +52,32 @@ public class UserServiceImpl implements UserService{
         if(userModel.isPresent() && bookModel.isPresent()){
             ShoppingCartModel cart = userModel.get().getShoppingCart();
             Map<BookModel, Integer> bookQuantityMap  = cart.getBookQuantityMap();
-            bookQuantityMap.put(bookModel.get(), quantity);
-            cart.setBookQuantityMap(bookQuantityMap);
-            cart.setTotalAmount(cart.getTotalAmount() + 1);
+            if (bookQuantityMap.containsKey(bookModel.get())){
+                bookQuantityMap.put(bookModel.get(), bookQuantityMap.get(bookModel.get()) + quantity);
+                cart.setBookQuantityMap(bookQuantityMap);
+            }else{
+                bookQuantityMap.put(bookModel.get(), quantity);
+                cart.setBookQuantityMap(bookQuantityMap);
+            }
 
             cartRepo.save(cart);
             userRepo.save(userModel.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeFromCart(Long userID, Long bookID){
+        Optional<UserModel> user = userRepo.findById(userID);
+        Optional<BookModel> book = bookRepo.findById(bookID);
+
+        if(user.isPresent() && book.isPresent()){
+            ShoppingCartModel cart = user.get().getShoppingCart();
+            Map<BookModel, Integer> bookQuantityMap  = cart.getBookQuantityMap();
+            bookQuantityMap.remove(book.get());
+            cartRepo.save(cart);
+            System.out.print("testing testing testing");
             return true;
         }
         return false;

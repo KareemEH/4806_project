@@ -34,7 +34,7 @@ public class CartController {
         Map<BookModel, Integer> Books = user.getShoppingCart().getBookQuantityMap();
         ArrayList<String[]> bookList = new ArrayList<>();
         for (Map.Entry<BookModel, Integer> entry : Books.entrySet()) {
-            String[] arr = {entry.getKey().getTitle(), entry.getKey().getAuthor(), entry.getKey().getPrice().toString(), entry.getValue().toString()};
+            String[] arr = {entry.getKey().getTitle(), entry.getKey().getAuthor(), entry.getKey().getPrice().toString(), entry.getValue().toString(),  entry.getKey().getId().toString()};
             bookList.add(arr);
         }
         return bookList;
@@ -53,6 +53,16 @@ public class CartController {
             return  "{\"success\": true}";
         }
         return  "{\"success\": false}";
+    }
+
+    @DeleteMapping("/deleteFromCart")
+    public String deleteCartItem(@RequestParam("userid") Long userId, @RequestParam("bookId") Long bookId) {
+        System.out.print("testing cartController");
+        boolean removeFrom = userService.removeFromCart(userId, bookId);
+        if (removeFrom){
+            return "{\"success\": true}";
+        }
+        return "{\"success\": false}";
     }
 
 }

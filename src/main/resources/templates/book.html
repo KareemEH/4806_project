@@ -9,6 +9,7 @@
     <script src="javascript/book.js"></script>
     <link rel="stylesheet" href="stylesheets/common.css">
     <link rel="stylesheet" href="stylesheets/book.css">
+    <link rel="stylesheet" href="stylesheets/index.css">
     <link rel="icon" type="image/x-icon" href="/images/home_button.png">
 </head>
 <body>
@@ -33,8 +34,9 @@
             <p id="book-author"></p>
             <p id="book-publisher"></p>
             <p id="book-price"></p>
-            <button id="buy-btn" onclick="addBookToCart()"><p>Buy</p></button>
-        <div>
+            <button id="buy-btn" onclick="addBookToCart()"><p>Add to Cart</p></button>
+        </div>
     </div>
+    <button id="cart-btn" onclick="goToCart()" hidden><img id="cart-img" src="images/cart2.png" alt="cart-btn not found"></button>
 </body>
 </html>
