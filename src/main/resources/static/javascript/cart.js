@@ -1,11 +1,5 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    // do fetch and call add cartItem()
-    // fetch("/frontPageBooks").
-    // then((payload) => payload.json()).
-    // then((json) => json.forEach(element => {
-    //     addBookButton(element);        
-    // }));
     getUserCart();
 
     if(sessionStorage.getItem("loggedIn") === 'true'){
@@ -68,7 +62,9 @@ function getUserCart(){
             totalHeader.innerHTML = '<b>Total Price:</b>';
             totalCell.innerHTML = "$" + totalPrice.toFixed(2); // display total with 2 decimal places
 
-            document.body.appendChild(table);
+            const cartItemsDiv = document.getElementById("cart-items");
+            cartItemsDiv.innerHTML = ""; // clear the div contents
+            cartItemsDiv.appendChild(table); // add the table to the div
         });
 }
 
@@ -104,6 +100,38 @@ function removeFromCart(book_id, book_title) {
             } else {
                 console.log("Could not remove book from cart (server side)");
                 alert("Could not remove book from cart (server side)");
+            }
+        });
+}
+
+async function checkout(user_id){
+    console.log(user_id);
+    return fetch("/checkoutCart?userid=" + user_id, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            user_id,
+        }),
+    })
+}
+
+function checkoutCart() {
+    let user_id = sessionStorage.getItem("userId");
+
+    checkout(user_id)
+        .then((resp) => {
+            return resp.json();
+        })
+        .then((obj) => {
+            if (obj.success) {
+                alert("Order has been placed succesfully!");
+                document.location.href = `/cart`;
+            } else {
+                console.log("Could not place your order (server side)");
+                alert("Could not place your order (server side)");
             }
         });
 }

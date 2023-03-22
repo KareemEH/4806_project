@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         log_out_btn.removeAttribute("hidden");
 
         const cart_btn = document.getElementById("cart-btn");
-        cart_btn.removeAttribute("hidden");;
+        cart_btn.removeAttribute("hidden");
 
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
@@ -89,10 +89,10 @@ async function login(username, password){
 }
 
 function attemptLogin(){
-    username = getUsername();
-    password = getPassword();
+    let username = getUsername();
+    let password = getPassword();
     getUserId(username);
-    user_id = sessionStorage.getItem("userId");
+    // sessionStorage.getItem("userId");
 
     if(!validUsername || !validPassword()){
         // TODO more graceful failiure
@@ -148,8 +148,8 @@ function getUserId(username){
 }
 
 function attemptRegistration(){
-    username = getUsername();
-    password = getPassword();
+    let username = getUsername();
+    let password = getPassword();
 
     if(!validUsername || !validPassword()){
         // TODO more graceful failiure

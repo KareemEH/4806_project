@@ -57,7 +57,7 @@ async function addToCart(user_id, book_id, quantity){
 }
 
 function addBookToCart() {
-    let user_id = sessionStorage.getItem("userId")
+    let user_id = sessionStorage.getItem("userId");
     let book_id = document.getElementById("book-id").textContent;
     let quantity = prompt("How many would you like", 1);
 
