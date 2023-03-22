@@ -16,9 +16,9 @@ import java.util.Map;
 public class CartController {
     
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
     private final UserService userService;
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public CartController(UserService userService, BookRepository bookRepository, UserRepository userRepository) {
@@ -28,23 +28,27 @@ public class CartController {
     }
 
 
-    @GetMapping(value="userCart", produces= MediaType.APPLICATION_JSON_VALUE)
-    public Map<BookModel, Integer> getBooks(@RequestParam("userid") Long userid) {
+    @GetMapping(value="/getUserCart", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<String[]> getBooks(@RequestParam("userid") Long userid) {
         UserModel user = userRepository.findAllById(Arrays.asList(userid)).get(0);
         Map<BookModel, Integer> Books = user.getShoppingCart().getBookQuantityMap();
-
-        return Books;
+        ArrayList<String[]> bookList = new ArrayList<>();
+        for (Map.Entry<BookModel, Integer> entry : Books.entrySet()) {
+            String[] arr = {entry.getKey().getTitle(), entry.getKey().getAuthor(), entry.getKey().getPrice().toString(), entry.getValue().toString()};
+            bookList.add(arr);
+        }
+        return bookList;
     }
 
     /**
      * Adding a book to Cart. TO be expanded upon later
      * @param userid
-     * @param bookid
+     * @param bookId
      * @return
      */
-    @PostMapping("/tocart")
-    public String addBook(@RequestParam("userid") Long userid, @RequestParam("bookid") Long bookid, @RequestParam("quantity") int quantity) {
-        boolean addTo = userService.addToCart(userid,bookid, quantity);
+    @PostMapping("/addToCart")
+    public String addBook(@RequestParam("userid") Long userid, @RequestParam("bookId") Long bookId, @RequestParam("quantity") int quantity) {
+        boolean addTo = userService.addToCart(userid, bookId, quantity);
         if (addTo){
             return  "{\"success\": true}";
         }

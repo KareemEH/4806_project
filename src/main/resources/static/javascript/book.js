@@ -41,21 +41,37 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+async function addToCart(user_id, book_id, quantity){
+    return fetch("/addToCart?userid=" + user_id + "&bookId=" + book_id + "&quantity=" + quantity, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            user_id,
+            book_id,
+            quantity,
+        }),
+    })
+}
 
-function addBookToCart(){
+function addBookToCart() {
+    let user_id = sessionStorage.getItem("userId")
+    let book_id = document.getElementById("book-id").textContent;
     let quantity = prompt("How many would you like", 1);
-    console.log("buying " + quantity + " books!");
 
-    // TODO call backend to add to cart
-    // use book_id attribute
-
-    let success = true;
-
-    if(success){
-        alert("added successfully");
-        document.location.href = '/cart';
-    }
-    else{
-        alert("failure to add to cart");
-    }
+    addToCart(user_id, book_id, quantity)
+        .then((resp) => {
+            return resp.json();
+        })
+        .then((obj) => {
+            if (obj.success) {
+                alert(quantity + " books were added successfully!");
+                document.location.href = "/cart";
+            } else {
+                console.log("Could not add book to cart (server side)");
+                alert("Could not add book to cart (server side)");
+            }
+        });
 }
