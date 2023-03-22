@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.model.OrderModel;
 import main.model.UserModel;
 import main.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,11 @@ import main.repository.BookRepository;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookStoreController {
@@ -82,6 +87,18 @@ public class BookStoreController {
             }
         }
         return new BookModel();
+    }
+
+    @GetMapping(value="/getOrders", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<String[]> getOrderBooks(@RequestParam("userid") Long userid) {
+        UserModel user = userRepository.findAllById(Arrays.asList(userid)).get(0);
+        List<OrderModel> orderList = user.getOrderList();
+        ArrayList<String[]> bookList = new ArrayList<>();
+        for (OrderModel order : orderList) {
+            String[] arr = {order.getId().toString(), order.getDate().toString(), order.getTotalAmount().toString()};
+            bookList.add(arr);
+        }
+        return bookList;
     }
 
 

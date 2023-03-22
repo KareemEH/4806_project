@@ -1,5 +1,6 @@
 package main.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +27,21 @@ public class OrderModel implements Serializable {
     private Double totalAmount;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserModel user;
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "OrderBooks", joinColumns = @JoinColumn(name = "order_id"))
     @MapKeyJoinColumn(name = "book_id")
     @Column(name = "quantity")
     private Map<BookModel, Integer> bookQuantityMap = new HashMap<>();
+
+    public OrderModel(Date date, double totalAmount, UserModel user, Map<BookModel, Integer> bookQuantityMap) {
+        this.date = date;
+        this.totalAmount = totalAmount;
+        this.user = user;
+        this.bookQuantityMap = bookQuantityMap;
+    }
+
     public String toString() {
         String str = "";
         for (Map.Entry<BookModel, Integer> entry : bookQuantityMap.entrySet()) {

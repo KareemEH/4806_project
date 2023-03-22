@@ -77,4 +77,9 @@ public class GUIController {
     public String cart(){
         return "cart";
     }
+
+    @GetMapping("/order")
+    public String orders(){
+        return "order";
+    }
 }
