@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
         log_out_btn.toggleAttribute("hidden");
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
+
+        const order_btn = document.getElementById("order-btn");
+        order_btn.toggleAttribute("hidden");
+        const order_text = document.getElementById("order-text");
+        order_text.innerHTML = 'Orders';
     }
     else{
         const buy_btn = document.getElementById("buy-btn");

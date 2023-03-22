@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const order_btn = document.getElementById("order-btn");
         order_btn.removeAttribute("hidden");
 
+        const order_text = document.getElementById("order-text");
+        order_text.innerHTML = 'Orders';
+
         const log_out_text = document.getElementById("log-out-text");
         log_out_text.innerHTML = 'Logout: ' + sessionStorage.getItem("username");
     }
@@ -29,6 +32,9 @@ function goToCart(){
     document.location.href = `/cart`; 
 }
 
+function goToOrders(){
+    document.location.href = `/order`;
+}
 function goToRegister(bookName){
     document.location.href = `/register`; 
 }
