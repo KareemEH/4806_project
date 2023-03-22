@@ -45,4 +45,12 @@ Front-end unit tests can be run by opening `jasmine/SpecRunner.html` in a browse
 
 ![Java CI badge not found](https://github.com/Brandon-999/4806_project/actions/workflows/maven-tests.yml/badge.svg)
 
+## UML Diagram (Models Only)
+
+![UML Diagram](https://github.com/Brandon-999/4806_project/blob/main/UML_Diagram.png?raw=true)
+
+## ER Diagram
+
+![ER Diagram](https://github.com/Brandon-999/4806_project/blob/main/ER-Diagram.png?raw=true)
+
 
