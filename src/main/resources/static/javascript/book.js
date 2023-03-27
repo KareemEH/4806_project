@@ -54,9 +54,8 @@ async function addToCart(user_id, book_id, quantity){
             'Accept': "application/json",
         },
         body: JSON.stringify({
-            user_id,
-            book_id,
-            quantity,
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
         }),
     })
 }

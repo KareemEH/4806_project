@@ -18,4 +18,8 @@ public class Credentials {
     public String getPassword(){
         return password;
     }
+
+    public String toJSON(){
+        return "{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}";
+    }
 }

@@ -100,7 +100,7 @@ async function login(username, password){
 function attemptLogin(){
     let username = getUsername();
     let password = getPassword();
-    getUserId(username);
+    getAndRememberUserId(username, password);
     // sessionStorage.getItem("userId");
 
     if(!validUsername || !validPassword()){
@@ -148,8 +148,18 @@ async function registerNewUser(username, password){
     })
 }
 
-function getUserId(username){
-    fetch("/getUserByUsername?username=" + username).
+function getAndRememberUserId(username, password){
+    fetch("/getUserByUsername", {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            username,
+            password,
+        }),
+    }).
     then((payload) => payload.json()).
     then((json) => {
         sessionStorage.setItem("userId", json.id);

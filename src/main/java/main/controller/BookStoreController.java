@@ -64,12 +64,19 @@ public class BookStoreController {
         return  "{\"success\": false}";
     }
 
-    @GetMapping(value="getUserByUsername", produces=MediaType.APPLICATION_JSON_VALUE)
-    public UserModel getUser(@RequestParam("username") String username) {
-        UserModel User = userRepository.findByUsername(username);
-        if(User.getUsername().equals(username)){
-            return User;
+    @CrossOrigin
+    @PostMapping(value="getUserByUsername", produces=MediaType.APPLICATION_JSON_VALUE)
+    public UserModel getUser(@RequestBody Credentials credentials) {
+        
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+
+        if(valid){
+            UserModel User = userRepository.findByUsername(credentials.getUsername());
+            if(User.getUsername().equals(credentials.getUsername())){
+                return User;
+            }
         }
+        
         return new UserModel();
     }
 
@@ -89,16 +96,22 @@ public class BookStoreController {
         return new BookModel();
     }
 
-    @GetMapping(value="/getOrders", produces= MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<String[]> getOrderBooks(@RequestParam("userid") Long userid) {
-        UserModel user = userRepository.findAllById(Arrays.asList(userid)).get(0);
-        List<OrderModel> orderList = user.getOrderList();
+    @CrossOrigin
+    @PostMapping(value="/getOrders", produces= MediaType.APPLICATION_JSON_VALUE)
+    public ArrayList<String[]> getOrderBooks(@RequestParam("userid") Long userid, @RequestBody Credentials credentials) {
         ArrayList<String[]> bookList = new ArrayList<>();
-        for (OrderModel order : orderList) {
-            String[] arr = {order.getId().toString(), order.getDate().toString(), order.getTotalAmount().toString()};
-            bookList.add(arr);
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+
+        if(valid){
+            UserModel user = userRepository.findAllById(Arrays.asList(userid)).get(0);
+            List<OrderModel> orderList = user.getOrderList();
+            for (OrderModel order : orderList) {
+                String[] arr = {order.getId().toString(), order.getDate().toString(), order.getTotalAmount().toString()};
+                bookList.add(arr);
+            }
         }
-        return bookList;
+
+        return bookList; // returning empty list might mean error
     }
 
 

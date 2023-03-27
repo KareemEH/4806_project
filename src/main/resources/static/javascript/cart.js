@@ -19,7 +19,17 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function getUserCart(){
-    fetch("/getUserCart?userid=" + sessionStorage.getItem("userId"))
+    fetch("/getUserCart?userid=" + sessionStorage.getItem("userId"), {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+        }),
+    })
         .then((payload) => payload.json())
         .then((json) => {
             const table = document.createElement('table');
@@ -81,8 +91,8 @@ async function deleteFromCart(user_id, book_id){
             'Accept': "application/json",
         },
         body: JSON.stringify({
-            user_id,
-            book_id,
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
         }),
     })
     .catch((error) => {
@@ -118,7 +128,8 @@ async function checkout(user_id){
             'Accept': "application/json",
         },
         body: JSON.stringify({
-            user_id,
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
         }),
     })
 }

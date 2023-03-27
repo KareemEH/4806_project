@@ -74,8 +74,9 @@ public class EndpointsTest {
         UserModel user = new UserModel("testuser", "testpassword");
         userRepository.save(user);
 
-        mvc.perform(get("/getUserByUsername")
-                        .param("username", user.getUsername())
+        mvc.perform(post("/getUserByUsername")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Credentials("testuser", "testpassword").toJSON())
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(user.getId()));

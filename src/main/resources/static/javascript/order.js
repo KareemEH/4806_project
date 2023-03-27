@@ -18,7 +18,17 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function getUserOrders(){
-    fetch("/getOrders?userid=" + sessionStorage.getItem("userId"))
+    fetch("/getOrders?userid=" + sessionStorage.getItem("userId"), {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+        }),
+    })
         .then((payload) => payload.json())
         .then((json) => {
             const table = document.createElement('table');
