@@ -119,4 +119,70 @@ public class UserServiceImpl implements UserService{
         }
         return false;
     }
+
+    @Override
+    public List<BookModel> getRecommendedBooks(Long userId) {
+        Optional<UserModel> currentUser = userRepo.findById(userId);
+        List<UserModel> allUsers = userRepo.findAllWithOrders();
+        List<BookModel> recommendedBooks = new ArrayList<>();
+
+        if(currentUser.isPresent()){
+            Map<UserModel, Double> jaccardDistances = new HashMap<>();
+            for (UserModel user : allUsers) {
+                if (user.getId() != userId) {
+                    double jaccardDistance = calculateJaccardDistance(currentUser.get(), user);
+                    jaccardDistances.put(user, jaccardDistance);
+                }
+            }
+            List<UserModel> similarUsers = getSimilarUsers(jaccardDistances);
+
+
+            for (UserModel similarUser : similarUsers) {
+                List<OrderModel> orders = similarUser.getOrderList();
+                for (OrderModel order : orders) {
+                    Map<BookModel, Integer> bookQuantityMap = order.getBookQuantityMap();
+                    for (Map.Entry<BookModel, Integer> entry : bookQuantityMap.entrySet()) {
+                        BookModel book = entry.getKey();
+                        if (!currentUser.get().hasOrdered(book)) {
+                            recommendedBooks.add(book);
+                        }
+                    }
+                }
+            }
+        }
+
+        return recommendedBooks;
+    }
+
+    private double calculateJaccardDistance(UserModel user1, UserModel user2) {
+        List<BookModel> user1Books = user1.getAllPurchasedBooks();
+        List<BookModel> user2Books = user2.getAllPurchasedBooks();
+
+        Set<BookModel> union = new HashSet<>(user1Books);
+        union.addAll(user2Books);
+
+        Set<BookModel> intersection = new HashSet<>(user1Books);
+        intersection.retainAll(user2Books);
+
+        return 1.0 - ((double) intersection.size() / union.size());
+    }
+
+    private List<UserModel> getSimilarUsers(Map<UserModel, Double> jaccardDistances) {
+        List<UserModel> similarUsers = new ArrayList<>();
+
+        double minDistance = Double.MAX_VALUE;
+        for (double distance : jaccardDistances.values()) {
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+        }
+
+        for (Map.Entry<UserModel, Double> entry : jaccardDistances.entrySet()) {
+            if (entry.getValue() == minDistance) {
+                similarUsers.add(entry.getKey());
+            }
+        }
+
+        return similarUsers;
+    }
 }

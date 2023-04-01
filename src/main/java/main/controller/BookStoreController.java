@@ -114,7 +114,6 @@ public class BookStoreController {
         return bookList; // returning empty list might mean error
     }
 
-
     /**
      * Adding a book to database. TO be expanded upon later
      */
@@ -124,5 +123,10 @@ public class BookStoreController {
         return "redirect:/books";
     }
 
+    @PostMapping(value = "/recommendations",  produces= MediaType.APPLICATION_JSON_VALUE)
+    public List<BookModel> getRecommendedBooks(@RequestParam("userid") Long userid){
+
+        return userService.getRecommendedBooks(userid);
+    }
 
 }

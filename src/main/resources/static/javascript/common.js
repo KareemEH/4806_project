@@ -43,9 +43,9 @@ function goToBook(id){
     document.location.href = `/book?id=${id}`; 
 }
 
-function generateBookTable(books){
+function generateBookTable(books, tableId, searchable){
     const table = document.createElement('table');
-    table.setAttribute("id", "books");
+    table.setAttribute("id", tableId);
     const header = table.createTHead();
     const body = table.createTBody();
     const row = header.insertRow(0);
@@ -97,14 +97,38 @@ function generateBookTable(books){
         genreCell.innerHTML = element.genre;
         priceCell.innerHTML = '$' + element.price;
     });
+    if (searchable){
     const homepage_books = document.getElementById("homepage-books");
     homepage_books.appendChild(table);
-    $('#books').DataTable({
-        "columnDefs": [{
-          "targets": 0,
-          "orderable": false // Disable sorting for book image column
-        }]
-    });
+
+        $("#"+tableId).DataTable({
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false // Disable sorting for book image column
+            }],
+            language: {
+                sInfo: "Showing _START_ to _END_ of _TOTAL_ books"
+            }
+        });
+    }else{
+        const recommend_books = document.getElementById("recommend-books");
+        let p = document.createElement("h3");
+        p.innerHTML = "Similar users have purchased these books, take a look!"
+        recommend_books.appendChild(p);
+        recommend_books.appendChild(table);
+
+        $("#"+tableId).DataTable({
+            "columnDefs": [{
+                "targets": 0,
+                "orderable": false // Disable sorting for book image column
+            }],
+            searching : false,
+            paging: false,
+            language: {
+                sInfo: "Recommending _TOTAL_ books"
+            }
+        });
+    }
 }
 
 function getUsername(){
@@ -253,4 +277,31 @@ function setLoggedOut(){
     sessionStorage.setItem("username", '');
     sessionStorage.setItem("password", '');
     sessionStorage.setItem("userId", '');
+}
+
+function getRecommendedBooks(){
+    return fetch("/recommendations?userid=" + sessionStorage.getItem("userId"), {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+        }),
+    })
+        .then((payload) => payload.json())
+        .then((json) => {
+            return json.map(book => {
+                return {
+                    id: book.id,
+                    title: book.title,
+                    author: book.author,
+                    description: book.description,
+                    price: book.price,
+                    genre: book.genre,
+                    publisher: book.publisher,
+                    isbn: book.isbn,
+                };
+            });
+        });
 }

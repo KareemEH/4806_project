@@ -1,5 +1,9 @@
 #homepage-books {
-    margin-left: 5vw;
+    margin: 1vw;
+}
+
+#recommend-books {
+    margin: 1vw;
 }
 
 .book-button {
