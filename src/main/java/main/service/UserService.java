@@ -11,4 +11,5 @@ public interface UserService {
     boolean removeFromCart(Long userId, Long bookId);
     boolean createOrder(Long userid);
     double calculateTotalPrice(Map<BookModel, Integer> bookQuantityMap);
+    int getBookQuantityInCart(Long userId, Long bookId);
 }

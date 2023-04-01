@@ -119,4 +119,17 @@ public class UserServiceImpl implements UserService{
         }
         return false;
     }
+
+    @Override
+    public int getBookQuantityInCart(Long userId, Long bookId){
+        BookModel book = bookRepo.findById(bookId).get();
+        Map<BookModel, Integer> bookQuantityMap = userRepo.findById(userId).get().getShoppingCart().getBookQuantityMap();
+        if(bookQuantityMap.get(book) == null){
+            return -1;
+        } else {
+            return bookQuantityMap.get(book);
+        }
+
+
+    }
 }
