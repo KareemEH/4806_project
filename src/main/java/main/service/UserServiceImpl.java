@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService{
         List<UserModel> allUsers = userRepo.findAllWithOrders();
         List<BookModel> recommendedBooks = new ArrayList<>();
 
-        if(currentUser.isPresent()){
+        if(currentUser.isPresent() && !currentUser.get().getOrderList().isEmpty()){
             Map<UserModel, Double> jaccardDistances = new HashMap<>();
             for (UserModel user : allUsers) {
                 if (user.getId() != userId) {

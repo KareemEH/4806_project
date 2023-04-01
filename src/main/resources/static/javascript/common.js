@@ -98,8 +98,8 @@ function generateBookTable(books, tableId, searchable){
         priceCell.innerHTML = '$' + element.price;
     });
     if (searchable){
-    const homepage_books = document.getElementById("homepage-books");
-    homepage_books.appendChild(table);
+        const homepage_books = document.getElementById("homepage-books");
+        homepage_books.appendChild(table);
 
         $("#"+tableId).DataTable({
             "columnDefs": [{
