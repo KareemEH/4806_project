@@ -21,8 +21,10 @@ public class BookModel implements Serializable {
     private Long id;
     private String isbn;
     private String title;
+    @Column(length = 1000)
     private String description;
     private String author;
     private String publisher;
+    private String genre;
     private Float price;
 }

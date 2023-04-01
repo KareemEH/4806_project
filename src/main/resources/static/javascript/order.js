@@ -32,7 +32,7 @@ function getUserOrders(){
         .then((payload) => payload.json())
         .then((json) => {
             const table = document.createElement('table');
-            table.setAttribute("id", "orders")
+            table.setAttribute("id", "orders");
             const header = table.createTHead();
             const body = table.createTBody();
             const row = header.insertRow(0);
