@@ -84,8 +84,8 @@ public class EndpointsTest {
 
     @Test
     public void getFrontPageBooksAPITest() throws Exception {
-        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book 1", "Test Description 1", "Test Author 1", "Test Publisher 1", 19.99f);
-        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", 29.99f);
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book 1", "Test Description 1", "Test Author 1", "Test Publisher 1", "Test Genre 1", 19.99f);
+        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", "Test Genre 2", 29.99f);
         bookRepository.save(book1);
         bookRepository.save(book2);
 
@@ -97,6 +97,7 @@ public class EndpointsTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].description").value(book1.getDescription()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value(book1.getAuthor()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].publisher").value(book1.getPublisher()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].genre").value(book1.getGenre()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].price").value(book1.getPrice()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(book1.getId()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].isbn").value(book2.getIsbn()))
@@ -105,12 +106,13 @@ public class EndpointsTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].author").value(book2.getAuthor()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].publisher").value(book2.getPublisher()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].price").value(book2.getPrice()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].genre").value(book2.getGenre()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(book2.getId()));
     }
 
     @Test
     public void getBookByIDAPITest() throws Exception {
-        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", 19.99f);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
         bookRepository.save(book);
 
         mvc.perform(get("/bookByID")
@@ -122,13 +124,14 @@ public class EndpointsTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(book.getDescription()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(book.getAuthor()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book.getGenre()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(book.getPrice()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()));
     }
 
     @Test
     public void addBookAPITest() throws Exception {
-        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", 19.99f);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
         String json = asJsonString(book);
 
         mvc.perform(post("/")

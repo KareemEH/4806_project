@@ -55,7 +55,7 @@ public class ShoppingCartModelTest {
     @Test
     public void testCartToString() {
         bookQuantityMap.clear();
-        bookQuantityMap.put(new BookModel(1L, "1234567890123", "Test Book", "A test book", "Test Author", "Test Publisher", 10.0f), 2);
+        bookQuantityMap.put(new BookModel(1L, "1234567890123", "Test Book", "A test book", "Test Author", "Test Publisher", "Test Genre",10.0f), 2);
         String expectedString = "Shopping Cart #: 1\n" +
                 "Books: Test Book (2) | \n" +
                 "Total Amount: $20.0\n";
