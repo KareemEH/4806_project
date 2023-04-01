@@ -7,11 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
        if (sessionStorage.getItem("userId")!=null){
             getRecommendedBooks().then((recommendedBooks) => {
                 if (recommendedBooks.length > 0) {
+                    console.log(recommendedBooks);
                     generateBookTable(recommendedBooks, "recommendedBooks", false);
                 }
             });
         }
-       console.log(json);
+        console.log(json);
         generateBookTable(json, "books", true);
 
     });
