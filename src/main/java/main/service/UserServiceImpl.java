@@ -79,6 +79,10 @@ public class UserServiceImpl implements UserService{
             Map<BookModel, Integer> bookQuantityMap = cart.getBookQuantityMap();
             OrderModel order;
             if (!bookQuantityMap.isEmpty()) {
+                for(BookModel book : bookQuantityMap.keySet()){
+                    book.setStock(book.getStock() - bookQuantityMap.get(book));
+                    bookRepo.save(book);
+                }
                 order = new OrderModel(new Date(), calculateTotalPrice(bookQuantityMap), user.get(), bookQuantityMap);
                 userOrders.add(order);
                 bookQuantityMap = new HashMap<>();
@@ -129,7 +133,5 @@ public class UserServiceImpl implements UserService{
         } else {
             return bookQuantityMap.get(book);
         }
-
-
     }
 }
