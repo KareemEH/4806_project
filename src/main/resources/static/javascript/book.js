@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/bookByID?id=" + book_id.textContent).
     then((payload) => payload.json()).
     then((json) => {
-        book_img.setAttribute("src", "images/" + json.title.toLowerCase().replace(" ", "_") + ".jpg");
-        book_title.textContent = "Title: " + json.title;
-        book_isbn.textContent = "ISBN: " + json.isbn;
-        book_description.textContent = "Description: " + json.description;
-        book_author.textContent = "Author: " + json.author;
-        book_publisher.textContent = "Publisher: " + json.publisher;
-        book_price.textContent = "Price: $" + json.price;
+        book_img.setAttribute("src", "images/" + json.title.toLowerCase().replaceAll(" ", "_") + ".jpg");
+        book_title.innerHTML = "<strong>Title:</strong> " + json.title;
+        book_isbn.innerHTML = "<strong>ISBN:</strong> " + json.isbn;
+        book_description.innerHTML = "<strong>Description:</strong> " + json.description;
+        book_author.innerHTML = "<strong>Author:</strong> " + json.author;
+        book_publisher.innerHTML = "<strong>Publisher:</strong> " + json.publisher;
+        book_price.innerHTML = "<strong>Price:</strong> $" + json.price;
     });
 });
 

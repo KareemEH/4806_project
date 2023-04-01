@@ -8,18 +8,19 @@
 #home-button{
     background-color: transparent;
     border: none;
-    margin-left: 3%;
-    margin-top: 2%;
-    width: 8%;
+    margin-left: 1%;
+    margin-top: 0.25%;
+    width: 5%;
 }
 
 #home-button:hover {
     background-color: lightblue;
+    cursor: pointer;
 }
 
 header {
     background-color: rgb(252, 184, 60);
-    padding-bottom: 1%;
+    padding-bottom: 5px;
 }
 
 header > * {
@@ -48,6 +49,7 @@ body {
     padding: 0px;
     background-color: transparent;
     border-color: transparent;
+    cursor: pointer;
 }
 
 .login-reg-btn:hover {

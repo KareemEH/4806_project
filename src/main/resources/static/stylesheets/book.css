@@ -1,20 +1,21 @@
-#book-picture{
+#book-picture {
     margin-left: 5%;
     margin-top: 4%;
     position: relative;
-    width: 22vw;
+    width: 28vw;
+    height: 44vh;
     float: left;
+    border: 4px solid transparent;
+    border-image: linear-gradient(to bottom, gold, lightblue) 1;
 }
 
 #book-descriptors-div > p {
     margin-left: 5vw;
-    /* margin-top: 15%; */
-    font-size: 2vw;
+    font-size: 1.5vw;
 }
 
 #book-descriptors-div > button {
     margin-left: 5vw;
-    /* margin-top: 15%; */
 }
 
 #book-descriptors-div > button > p {
@@ -22,9 +23,9 @@
     margin: 0px;
 }
 
-#book-div > * {
-    display: inline;
-    vertical-align: top;
+#book-div{
+    display: flex;
+    margin-bottom: 20px;
 }
 
 #book-descriptors-div {

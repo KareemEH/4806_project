@@ -32,30 +32,33 @@ function getUserOrders(){
         .then((payload) => payload.json())
         .then((json) => {
             const table = document.createElement('table');
+            table.setAttribute("id", "orders");
             const header = table.createTHead();
+            const body = table.createTBody();
             const row = header.insertRow(0);
             const OrderNum = row.insertCell(0);
             const Date = row.insertCell(1);
             const priceHeader = row.insertCell(2)
             OrderNum.innerHTML = '<b>OrderNumber</b>';
-            Date.innerHTML = '<b>Date</b>';
-            priceHeader.innerHTML = '<b>Total</b>';
+            Date.innerHTML = '<b>Total</b>';
+            priceHeader.innerHTML = '<b>Date</b>';
 
             json.forEach((bookArray) => {
-                const orderid = bookArray[0];
+                const orderId = bookArray[0];
                 const date = bookArray[1];
                 const price = bookArray[2];
-                const row = table.insertRow(-1);
-                const titleCell = row.insertCell(0);
-                const authorCell = row.insertCell(1);
-                const priceCell = row.insertCell(2);
-                titleCell.innerHTML = orderid;
-                authorCell.innerHTML = date;
-                priceCell.innerHTML = price;
+                const row = body.insertRow(-1);
+                const orderIdCell = row.insertCell(0);
+                const orderTotalCell = row.insertCell(1);
+                const orderDateCell = row.insertCell(2);
+                orderIdCell.innerHTML = orderId;
+                orderTotalCell.innerHTML = "$" + price;
+                orderDateCell.innerHTML = date;
             });
 
             const cartItemsDiv = document.getElementById("order-items");
             cartItemsDiv.innerHTML = ""; // clear the div contents
             cartItemsDiv.appendChild(table); // add the table to the div
+            $('#orders').DataTable();
         });
 }

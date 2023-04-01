@@ -43,20 +43,68 @@ function goToBook(id){
     document.location.href = `/book?id=${id}`; 
 }
 
-function addBookButton(element){
-    const button = document.createElement('button');
-    button.classList.add("book-button");
-    button.setAttribute("onclick", `goToBook(${element.id})`);
+function generateBookTable(books){
+    const table = document.createElement('table');
+    table.setAttribute("id", "books");
+    const header = table.createTHead();
+    const body = table.createTBody();
+    const row = header.insertRow(0);
 
-    const img = document.createElement('img');
-    img.classList.add("book-button-img");
-    img.setAttribute("src", `images/${element.title.toLowerCase().replace(" ", "_")}.jpg`);
-    img.setAttribute("alt", "Book picture not found");
+    // Creating book table headers
+    const bookImg = row.insertCell(0);
+    const isbn = row.insertCell(1);
+    const bookTitle = row.insertCell(2);
+    const bookAuthor = row.insertCell(3);
+    const description = row.insertCell(4);
+    const genre = row.insertCell(5);
+    const price = row.insertCell(6);
 
-    button.appendChild(img);
+    bookImg.innerHTML = '<b>Book</b>'
+    isbn.innerHTML = '<b>ISBN</b>';
+    bookTitle.innerHTML = '<b>Title</b>';
+    bookAuthor.innerHTML = '<b>Author</b>';
+    description.innerHTML = '<b>Description</b>';
+    genre.innerHTML = '<b>Genre</b>';
+    price.innerHTML = '<b>Price</b>';
 
+    books.forEach((element) => {  
+        const button = document.createElement('button');
+        button.classList.add("book-button");
+        button.setAttribute("onclick", `goToBook(${element.id})`);
+           
+        const img = document.createElement('img');
+        img.classList.add("book-button-img");
+        img.setAttribute("src", `images/${element.title.toLowerCase().replaceAll(" ", "_")}.jpg`);
+        img.setAttribute("alt", "Book picture not found");
+        img.setAttribute("style","width:50px;height:80px;");
+       
+        const row = body.insertRow(-1);
+        const bookImgCell = row.insertCell(0);
+        const isbnCell = row.insertCell(1);
+        const bookTitleCell = row.insertCell(2);
+        const bookAuthorCell = row.insertCell(3);
+        const descriptionCell = row.insertCell(4);
+        const genreCell = row.insertCell(5);
+        const priceCell = row.insertCell(6);
+
+        button.appendChild(img);
+
+        bookImgCell.appendChild(button);
+        isbnCell.innerHTML = element.isbn;
+        bookTitleCell.innerHTML = element.title;
+        bookAuthorCell.innerHTML = element.author;
+        descriptionCell.innerHTML = element.description;
+        genreCell.innerHTML = element.genre;
+        priceCell.innerHTML = '$' + element.price;
+    });
     const homepage_books = document.getElementById("homepage-books");
-    homepage_books.appendChild(button);
+    homepage_books.appendChild(table);
+    $('#books').DataTable({
+        "columnDefs": [{
+          "targets": 0,
+          "orderable": false // Disable sorting for book image column
+        }]
+    });
 }
 
 function getUsername(){
