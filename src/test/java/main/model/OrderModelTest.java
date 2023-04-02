@@ -69,7 +69,7 @@ public class OrderModelTest {
     @Test
     public void testOrderToString() {
         bookQuantityMap.clear();
-        bookQuantityMap.put(new BookModel(1L, "1234567890123", "Test Book", "A test book", "Test Author", "Test Publisher", "Genre",10.0f), 2);
+        bookQuantityMap.put(new BookModel(1L, "1234567890123", "Test Book", "A test book", "Test Author", "Test Publisher", "Genre",10.0f,10), 2);
         String expectedString = "Order #: 1\n" +
                                 "Date: " + order.getDate().toString() + "\n" +
                                 "Books: Test Book (2) | \n" +

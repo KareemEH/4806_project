@@ -27,4 +27,5 @@ public class BookModel implements Serializable {
     private String publisher;
     private String genre;
     private Float price;
+    private Integer stock;
 }

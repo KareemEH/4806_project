@@ -11,7 +11,7 @@ public class BookModelTest {
 
     @Before
     public void setUp() {
-        book = new BookModel(1L, "1234567890123", "Title", "Description", "Author", "Publisher", "Genre",10.99f);
+        book = new BookModel(1L, "1234567890123", "Title", "Description", "Author", "Publisher", "Genre",10.99f,10);
         defaultBook = new BookModel();
     }
     @After
@@ -53,6 +53,7 @@ public class BookModelTest {
         defaultBook.setPublisher("New Publisher");
         defaultBook.setGenre("New Genre");
         defaultBook.setPrice(20.99f);
+        defaultBook.setStock(10);
 
         assertEquals(2L, defaultBook.getId().longValue());
         assertEquals("0987654321987", defaultBook.getIsbn());
@@ -62,5 +63,6 @@ public class BookModelTest {
         assertEquals("New Publisher", defaultBook.getPublisher());
         assertEquals("New Genre", defaultBook.getGenre());
         assertEquals(20.99f, defaultBook.getPrice(), 0.001f);
+        assertEquals(10,defaultBook.getStock(),0);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import main.model.BookModel;
 import main.repository.BookRepository;
 
+import java.awt.print.Book;
 import java.util.*;
 import java.util.Map;
 
@@ -95,6 +96,18 @@ public class CartController {
         }
 
         return  "{\"success\": false}"; // could be because of invalid credentials
+    }
+
+    @CrossOrigin
+    @PostMapping("/getBookQuantityInCart")
+    public String getBookQuantityInCart(@RequestParam("userid") Long userid,@RequestParam("bookid") Long bookid, @RequestBody Credentials credentials){
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+
+        if(valid){
+            return "{\"quantity\": " + userService.getBookQuantityInCart(userid,bookid)+ "}";
+        }
+
+        return "{\"quantity\": 0}";
     }
 
 }

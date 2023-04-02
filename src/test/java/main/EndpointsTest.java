@@ -88,8 +88,8 @@ public class EndpointsTest {
 
     @Test
     public void getFrontPageBooksAPITest() throws Exception {
-        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book 1", "Test Description 1", "Test Author 1", "Test Publisher 1", "Test Genre 1", 19.99f);
-        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", "Test Genre 2", 29.99f);
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book 1", "Test Description 1", "Test Author 1", "Test Publisher 1", "Test Genre 1", 19.99f,10);
+        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", "Test Genre 2", 29.99f,10);
         bookRepository.save(book1);
         bookRepository.save(book2);
 
@@ -111,12 +111,13 @@ public class EndpointsTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].publisher").value(book2.getPublisher()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].price").value(book2.getPrice()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].genre").value(book2.getGenre()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(book2.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(book2.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].stock").value(book2.getStock()));
     }
 
     @Test
     public void getBookByIDAPITest() throws Exception {
-        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
         bookRepository.save(book);
 
         mvc.perform(get("/bookByID")
@@ -130,12 +131,13 @@ public class EndpointsTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(book.getPublisher()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book.getGenre()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(book.getPrice()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(book.getStock()));
     }
 
     @Test
     public void addBookAPITest() throws Exception {
-        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
         String json = asJsonString(book);
 
         mvc.perform(post("/")
@@ -148,9 +150,9 @@ public class EndpointsTest {
     @Test
     public void recommendationAPITest() throws Exception {
         //Creating some books
-        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
-        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
-        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
+        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
+        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
 
         //Creating Users
         if(userRepository.findByUsername("testuser1")!=null){

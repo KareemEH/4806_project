@@ -29,7 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const book_author = document.getElementById("book-author");
     const book_publisher = document.getElementById("book-publisher");
     const book_price = document.getElementById("book-price");
+    const book_stock = document.getElementById("book-stock");
     const book_img = document.getElementById("book-picture");
+    const buy_btn = document.getElementById("buy-btn");
 
     console.log(book_id.textContent);
 
@@ -43,8 +45,43 @@ document.addEventListener("DOMContentLoaded", () => {
         book_author.innerHTML = "<strong>Author:</strong> " + json.author;
         book_publisher.innerHTML = "<strong>Publisher:</strong> " + json.publisher;
         book_price.innerHTML = "<strong>Price:</strong> $" + json.price;
+        if(json.stock == 0){
+            book_stock.innerHTML = "<strong style='color: red;'>OUT OF STOCK</strong>";
+            buy_btn.disabled = true;
+        } else {
+            book_stock.innerHTML = "<strong>Stock: </strong>" + json.stock;
+            buy_btn.disabled = false;
+        }
+        sessionStorage.setItem("stock",json.stock);
     });
 });
+
+async function getBookQuantityInCartAsync(user_id, book_id){
+    return fetch("/getBookQuantityInCart?userid=" + user_id + "&bookid=" + book_id, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+        }),
+    })
+}
+
+function getBookQuantityInCart() {
+    let user_id = sessionStorage.getItem("userId");
+    let book_id = document.getElementById("book-id").textContent;
+
+    return getBookQuantityInCartAsync(user_id, book_id)
+        .then((resp) => {
+            return resp.json();
+        })
+        .then((obj) => {
+            return obj.quantity;
+        });
+}
 
 async function addToCart(user_id, book_id, quantity){
     return fetch("/addToCart?userid=" + user_id + "&bookId=" + book_id + "&quantity=" + quantity, {
@@ -63,18 +100,28 @@ async function addToCart(user_id, book_id, quantity){
 function addBookToCart() {
     let user_id = sessionStorage.getItem("userId");
     let book_id = document.getElementById("book-id").textContent;
-    let quantity = prompt("How many would you like", 1);
-
-    addToCart(user_id, book_id, quantity)
-        .then((resp) => {
-            return resp.json();
-        })
-        .then((obj) => {
-            if (obj.success) {
-                alert(quantity + " books were added successfully!");
+    let stock = parseInt(sessionStorage.getItem("stock"));
+    let userQuantity = parseInt(prompt("How many would you like?", 0));
+    getBookQuantityInCart()
+        .then((quantity) => {
+            console.log(userQuantity+" > "+stock+" - "+quantity);
+            if(userQuantity > (stock - quantity)){
+                alert("Not enough books in stock! Try again.");
+            } else if (userQuantity <= 0){
+                alert("Invalid input, try again!");
             } else {
-                console.log("Could not add book to cart (server side)");
-                alert("Could not add book to cart (server side)");
+                addToCart(user_id, book_id, userQuantity)
+                    .then((resp) => {
+                        return resp.json();
+                    })
+                    .then((obj) => {
+                        if (obj.success) {
+                            alert(userQuantity + " books were added successfully!");
+                        } else {
+                            console.log("Could not add book to cart (server side)");
+                            alert("Could not add book to cart (server side)");
+                        }
+                    });
             }
         });
 }
