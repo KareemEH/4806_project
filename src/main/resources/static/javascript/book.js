@@ -49,26 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
             book_stock.innerHTML = "<strong style='color: red;'>OUT OF STOCK</strong>";
             buy_btn.disabled = true;
         } else {
-            book_stock.innerHTML = "<strong>Stock:</strong>" + json.stock;
+            book_stock.innerHTML = "<strong>Stock: </strong>" + json.stock;
             buy_btn.disabled = false;
         }
         sessionStorage.setItem("stock",json.stock);
     });
 });
-
-async function addToCart(user_id, book_id, quantity){
-    return fetch("/addToCart?userid=" + user_id + "&bookId=" + book_id + "&quantity=" + quantity, {
-        method: "POST",
-        headers: {
-            'Content-Type': "application/json",
-            'Accept': "application/json",
-        },
-        body: JSON.stringify({
-            username: sessionStorage.getItem("username"),
-            password: sessionStorage.getItem("password"),
-        }),
-    })
-}
 
 async function getBookQuantityInCartAsync(user_id, book_id){
     return fetch("/getBookQuantityInCart?userid=" + user_id + "&bookid=" + book_id, {
@@ -84,57 +70,58 @@ async function getBookQuantityInCartAsync(user_id, book_id){
     })
 }
 
-function getBookQuantityInCart(){
+function getBookQuantityInCart() {
     let user_id = sessionStorage.getItem("userId");
     let book_id = document.getElementById("book-id").textContent;
 
-    getBookQuantityInCartAsync(user_id,book_id)
+    return getBookQuantityInCartAsync(user_id, book_id)
         .then((resp) => {
             return resp.json();
         })
         .then((obj) => {
-            sessionStorage.setItem("cartQuantity",obj.quantity);
             return obj.quantity;
         });
+}
+
+async function addToCart(user_id, book_id, quantity){
+    return fetch("/addToCart?userid=" + user_id + "&bookId=" + book_id + "&quantity=" + quantity, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+        }),
+    })
 }
 
 function addBookToCart() {
     let user_id = sessionStorage.getItem("userId");
     let book_id = document.getElementById("book-id").textContent;
-    let quantity = parseInt(prompt("How many would you like", 1));
     let stock = parseInt(sessionStorage.getItem("stock"));
-    getBookQuantityInCart();
-    let cartQuantity = parseInt(sessionStorage.getItem("cartQuantity"));
-
-    if(cartQuantity == -1 && quantity <= stock){
-        addToCart(user_id, book_id, quantity)
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((obj) => {
-                if (obj.success) {
-                    alert(quantity + " books were added successfully!");
-                    sessionStorage.setItem("cartQuantity",quantity.toString());
-                } else {
-                    console.log("Could not add book to cart (server side)");
-                    alert("Could not add book to cart (server side)");
-                }
-            });
-    } else if(quantity <= (stock - cartQuantity) && cartQuantity != -1){
-        addToCart(user_id, book_id, quantity)
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((obj) => {
-                if (obj.success) {
-                    alert(quantity + " books were added successfully!");
-                    sessionStorage.setItem("cartQuantity",(quantity+cartQuantity).toString());
-                } else {
-                    console.log("Could not add book to cart (server side)");
-                    alert("Could not add book to cart (server side)");
-                }
-            });
-    } else {
-        alert("Number of books in cart exceeds stock amount. Try again!");
-    }
+    let userQuantity = parseInt(prompt("How many would you like?", 0));
+    getBookQuantityInCart()
+        .then((quantity) => {
+            console.log(userQuantity+" > "+stock+" - "+quantity);
+            if(userQuantity > (stock - quantity)){
+                alert("Not enough books in stock! Try again.");
+            } else if (userQuantity <= 0){
+                alert("Invalid input, try again!");
+            } else {
+                addToCart(user_id, book_id, userQuantity)
+                    .then((resp) => {
+                        return resp.json();
+                    })
+                    .then((obj) => {
+                        if (obj.success) {
+                            alert(userQuantity + " books were added successfully!");
+                        } else {
+                            console.log("Could not add book to cart (server side)");
+                            alert("Could not add book to cart (server side)");
+                        }
+                    });
+            }
+        });
 }

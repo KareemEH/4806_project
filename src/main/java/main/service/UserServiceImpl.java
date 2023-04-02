@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService{
         BookModel book = bookRepo.findById(bookId).get();
         Map<BookModel, Integer> bookQuantityMap = userRepo.findById(userId).get().getShoppingCart().getBookQuantityMap();
         if(bookQuantityMap.get(book) == null){
-            return -1;
+            return 0;
         } else {
             return bookQuantityMap.get(book);
         }

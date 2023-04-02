@@ -107,7 +107,7 @@ public class CartController {
             return "{\"quantity\": " + userService.getBookQuantityInCart(userid,bookid)+ "}";
         }
 
-        return "{\"quantity\": -1}";
+        return "{\"quantity\": 0}";
     }
 
 }
