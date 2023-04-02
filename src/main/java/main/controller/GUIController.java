@@ -72,6 +72,11 @@ public class GUIController {
         return "book";
     }
 
+    @GetMapping("/addBook")
+    public String addBook(){
+        return "addBook";
+    }
+
     // cart page
     @GetMapping("/cart")
     public String cart(){

@@ -1,5 +1,6 @@
 package main.controller;
 
+import java.io.File;
 import main.model.OrderModel;
 import main.model.UserModel;
 import main.repository.UserRepository;
@@ -8,13 +9,18 @@ import main.model.BookModel;
 import main.model.Credentials;
 import main.repository.BookRepository;
 import main.service.UserService;
+import main.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @RestController
 public class BookStoreController {
@@ -23,12 +29,14 @@ public class BookStoreController {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final BookService bookService;
 
     @Autowired
-    public BookStoreController(UserService userService, BookRepository bookRepository, UserRepository userRepository){
+    public BookStoreController(UserService userService, BookRepository bookRepository, UserRepository userRepository, BookService bookService){
         this.userService = userService;
         this.bookRepository = bookRepository;
         this.userRepository = userRepository;
+        this.bookService = bookService;
     }
     /**
      * Sign-Up Functionality. New User is checked to see if it is invalid (already exists).
@@ -46,6 +54,18 @@ public class BookStoreController {
         return "{\"success\": true}";  
     }
 
+    @CrossOrigin
+    @GetMapping(value="/getBookCover", produces=MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public @ResponseBody byte[] getBookCover(@RequestParam("filename") String filename){
+        try{
+            return Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/coverImages/" + filename));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     /**
      * Log-in Functionality. Using username and password, a matching user is requested.
@@ -94,6 +114,21 @@ public class BookStoreController {
             }
         }
         return new BookModel();
+    }
+
+    @CrossOrigin
+    @PostMapping(value="addBookToStore")
+    public String addCoverToBook(@RequestParam("isbn") String isbn, @RequestParam("title") String title, @RequestParam("description") String description, @RequestParam("author") String author, @RequestParam("publisher") String publisher, @RequestParam("genre") String genre, @RequestParam("price") float price, @RequestParam("stock") Integer stock, @RequestParam("cover") MultipartFile cover) {
+        try{
+            cover.transferTo(new File(System.getProperty("user.dir") + "/coverImages/" + cover.getOriginalFilename()));
+            this.bookService.addBook(isbn, title, description, author, publisher, genre, price, cover.getOriginalFilename(), stock);
+        }
+        catch(Exception e){
+            System.out.println(e);
+            System.out.println("err saving pic");
+        }
+
+        return "redirect:/addBook";
     }
 
     @CrossOrigin

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/bookByID?id=" + book_id.textContent).
     then((payload) => payload.json()).
     then((json) => {
-        book_img.setAttribute("src", "images/" + json.title.toLowerCase().replaceAll(" ", "_") + ".jpg");
+        book_img.setAttribute("src", "/getBookCover?filename=" + json.coverFilename);
         book_title.innerHTML = "<strong>Title:</strong> " + json.title;
         book_isbn.innerHTML = "<strong>ISBN:</strong> " + json.isbn;
         book_description.innerHTML = "<strong>Description:</strong> " + json.description;

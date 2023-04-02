@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="javascript/common.js"></script>
+    <link rel="stylesheet" href="stylesheets/common.css">
+    <link rel="stylesheet" href="stylesheets/addBook.css">
+    <link rel="icon" type="image/x-icon" href="/images/home_button.png">
+</head>
+<body>
+    <header>
+        <button id="home-button" onclick="goHome()">
+            <img id="home-img" src="images/home_button.png" alt="Home button not found">
+        </button>
+        <p id="page-title"><strong><em>Amazin Books!</em></strong></p>
+        <div id="login-reg-div">
+            <button class="login-reg-btn" onclick="goToLogin()"><p class="login-reg-text">login</p></button>
+            <button class="login-reg-btn" onclick="goToRegister()"><p class="login-reg-text">Register</p></button>
+            <button class="login-reg-btn" onclick="logout()" id="log-out-btn" hidden><p class="login-reg-text" id="log-out-text">Log out</p></button>
+            <button class="login-reg-btn" onclick="goToOrders()" id="order-btn" hidden><p class="login-reg-text" id="order-text">Orders</p></button>
+        </div>
+    </header>
+    <div id="add-book-div">
+        <form method="POST" enctype="multipart/form-data" action="/addBookToStore">
+            <p>Add a new book</p>
+            <div>
+                <label>ISBN: </label>
+                <input id="isbn-field" name="isbn" type="text">
+            </div>
+            <div>
+                <label>Title: </label>
+                <input id="title-field" name="title" type="text">
+            </div>
+            <div>
+                <label>Description: </label>
+                <input id="description-field" name="description" type="text">
+            </div>
+            <div>
+                <label>Author: </label>
+                <input id="author-field" name="author" type="text">
+            </div>
+            <div>
+                <label>Publisher: </label>
+                <input id="publisher-field" name="publisher" type="text">
+            </div>
+            <div>
+                <label>Genre: </label>
+                <input id="genre-field" name="genre" type="text">
+            </div>
+            <div>
+                <label>Price: </label>
+                <input id="price-field" name="price" step="0.01" type="number">
+            </div>
+            <div>
+                <label>Stock: </label>
+                <input id="price-field" name="stock" step="1" type="number">
+            </div>
+            <label>Cover: </label>
+            <input id="cover-field" type="file" name="cover">
+            <input type="submit" value="submit">
+        </form>
+    </div>
+</body>
+</html>

@@ -43,6 +43,12 @@ function goToBook(id){
     document.location.href = `/book?id=${id}`; 
 }
 
+
+
+function validateBookData(element){
+    return element.isbn && element.title && element.description && element.author && element.publisher && element.price;
+}
+
 function generateBookTable(books, tableId, searchable){
     const table = document.createElement('table');
     table.setAttribute("id", tableId);
@@ -59,7 +65,7 @@ function generateBookTable(books, tableId, searchable){
     const genre = row.insertCell(5);
     const price = row.insertCell(6);
 
-    bookImg.innerHTML = '<b>Book</b>'
+    bookImg.innerHTML = '<b>Book</b>';
     isbn.innerHTML = '<b>ISBN</b>';
     bookTitle.innerHTML = '<b>Title</b>';
     bookAuthor.innerHTML = '<b>Author</b>';
@@ -67,16 +73,22 @@ function generateBookTable(books, tableId, searchable){
     genre.innerHTML = '<b>Genre</b>';
     price.innerHTML = '<b>Price</b>';
 
+
     books.forEach((element) => {  
+        if(!validateBookData(element)){
+            return;
+        }
+
         const button = document.createElement('button');
         button.classList.add("book-button");
         button.setAttribute("onclick", `goToBook(${element.id})`);
            
         const img = document.createElement('img');
         img.classList.add("book-button-img");
-        img.setAttribute("src", `images/${element.title.toLowerCase().replaceAll(" ", "_")}.jpg`);
+        img.setAttribute("src", `getBookCover?filename=${element.coverFilename}`);
         img.setAttribute("alt", "Book picture not found");
         img.setAttribute("style","width:50px;height:80px;");
+        img.setAttribute("onerror", `this.src = "images/book_cover_not_found.png"`);
        
         const row = body.insertRow(-1);
         const bookImgCell = row.insertCell(0);

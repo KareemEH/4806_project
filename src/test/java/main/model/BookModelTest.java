@@ -11,7 +11,7 @@ public class BookModelTest {
 
     @Before
     public void setUp() {
-        book = new BookModel(1L, "1234567890123", "Title", "Description", "Author", "Publisher", "Genre",10.99f,10);
+        book = new BookModel(1L, "1234567890123", "Title", "Description", "Author", "Publisher", "Genre", 10.99f, "coverImage.png",10);
         defaultBook = new BookModel();
     }
     @After

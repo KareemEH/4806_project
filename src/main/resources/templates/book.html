@@ -27,7 +27,7 @@
     </header>
     <p id="book-id" hidden th:text="${id}"></p>
     <div id="book-div">
-        <img id="book-picture" alt="Book picture not found">
+        <img id="book-picture" alt="Book picture not found" onerror="this.src = 'images/book_cover_not_found.png'">
         <div id="book-descriptors-div">
             <p id="book-title"></p>
             <p id="book-isbn"></p>

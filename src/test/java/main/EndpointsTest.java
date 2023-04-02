@@ -88,8 +88,8 @@ public class EndpointsTest {
 
     @Test
     public void getFrontPageBooksAPITest() throws Exception {
-        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book 1", "Test Description 1", "Test Author 1", "Test Publisher 1", "Test Genre 1", 19.99f,10);
-        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", "Test Genre 2", 29.99f,10);
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book 1", "Test Description 1", "Test Author 1", "Test Publisher 1", "Test Genre 1", 19.99f, "coverImage.png",10);
+        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", "Test Genre 2", 29.99f, "coverImage.png",10);
         bookRepository.save(book1);
         bookRepository.save(book2);
 
@@ -117,7 +117,7 @@ public class EndpointsTest {
 
     @Test
     public void getBookByIDAPITest() throws Exception {
-        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
         bookRepository.save(book);
 
         mvc.perform(get("/bookByID")
@@ -137,7 +137,7 @@ public class EndpointsTest {
 
     @Test
     public void addBookAPITest() throws Exception {
-        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
         String json = asJsonString(book);
 
         mvc.perform(post("/")
@@ -150,10 +150,9 @@ public class EndpointsTest {
     @Test
     public void recommendationAPITest() throws Exception {
         //Creating some books
-        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
-        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
-        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
-
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
+        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
+        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
         //Creating Users
         if(userRepository.findByUsername("testuser1")!=null){
             userRepository.delete(userRepository.findByUsername("testuser1"));
