@@ -2,9 +2,7 @@ package main;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import main.model.BookModel;
-import main.model.Credentials;
-import main.model.UserModel;
+import main.model.*;
 import main.repository.BookRepository;
 import main.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -141,6 +145,45 @@ public class EndpointsTest {
                         .content(json)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void recommendationAPITest() throws Exception {
+        //Creating some books
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+
+        //Creating Users
+        if(userRepository.findByUsername("testuser1")!=null){
+            userRepository.delete(userRepository.findByUsername("testuser1"));
+        }
+        if(userRepository.findByUsername("testuser2")!=null){
+            userRepository.delete(userRepository.findByUsername("testuser2"));
+        }
+        UserModel user1 = new UserModel(1L,"testuser1", "testpassword", "testemail","testaddr","testaddr",new ShoppingCartModel(), new ArrayList<>());
+        UserModel user2 = new UserModel(2L,"testuser2", "testpassword", "testemail","testaddr","testaddr",new ShoppingCartModel(), new ArrayList<>());
+
+        //Adding Orders
+        Map<BookModel, Integer> user1Order = new HashMap<>();
+        user1Order.put(book1,1);
+        user1Order.put(book2,1);
+        user1Order.put(book3,1);
+
+        user1.getOrderList().add(new OrderModel(new Date(), 59.97f, user1, user1Order));
+        userRepository.save(user1);
+
+        Map<BookModel, Integer> user2Order = new HashMap<>();
+        user2Order.put(book1,1);
+        user2.getOrderList().add(new OrderModel(new Date(), 19.99f, user2, user2Order));
+        userRepository.save(user2);
+
+        //Checking if User2 will get the two unique books that user 1 ordered
+        MvcResult result = mvc.perform(post("/recommendations").param("userid", "2"))
+                .andExpect(status().isOk())
+                .andReturn();
+        MockMvcResultMatchers.jsonPath("$[0].id").value(2);
+        MockMvcResultMatchers.jsonPath("$[1].id").value(3);
     }
 
     public static String asJsonString(final Object obj) {

@@ -1,6 +1,9 @@
 package main.service;
 
 import main.model.BookModel;
+import main.model.UserModel;
+
+import java.util.List;
 import java.util.Map;
 
 public interface UserService {
@@ -12,4 +15,5 @@ public interface UserService {
     boolean createOrder(Long userid);
     double calculateTotalPrice(Map<BookModel, Integer> bookQuantityMap);
     int getBookQuantityInCart(Long userId, Long bookId);
+    List<BookModel> getRecommendedBooks(Long userId);
 }
