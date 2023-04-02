@@ -150,9 +150,9 @@ public class EndpointsTest {
     @Test
     public void recommendationAPITest() throws Exception {
         //Creating some books
-        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
-        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
-        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f);
+        BookModel book1 = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
+        BookModel book2 = new BookModel(2L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
+        BookModel book3 = new BookModel(3L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre",19.99f,10);
 
         //Creating Users
         if(userRepository.findByUsername("testuser1")!=null){
