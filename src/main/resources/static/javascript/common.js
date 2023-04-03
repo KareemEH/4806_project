@@ -32,6 +32,10 @@ function goToCart(){
     document.location.href = `/cart`; 
 }
 
+function goToAddBook(){
+    document.location.href = `/addBook`; 
+}
+
 function goToOrders(){
     document.location.href = `/order`;
 }

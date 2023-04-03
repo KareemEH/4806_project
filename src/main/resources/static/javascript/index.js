@@ -16,5 +16,9 @@ document.addEventListener("DOMContentLoaded", () => {
         generateBookTable(json, "books", true);
 
     });
+
+    if(sessionStorage.username === "Admin"){
+        document.getElementById("add-book-btn").toggleAttribute("hidden");
+    }
 });
 

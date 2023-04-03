@@ -26,6 +26,22 @@ public class UserServiceImpl implements UserService{
         this.cartRepo = cartRepo;
         this.orderRepo = orderRepo;
         this.bookRepo = bookRepo;
+        //initializeUsers();
+    }
+
+    public void initializeUsers(){
+        try{
+            createUser("Admin", "Admin");
+            createUser("Khalid", "Kana'An");
+            createUser("Mohamed", "Abdalla");
+            createUser("Kareem", "El-Hajjar");
+            createUser("Evan", "Lloyd");
+            createUser("Brandon", "Mercer");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     @Override

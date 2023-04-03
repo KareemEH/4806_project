@@ -22,6 +22,9 @@ import java.util.Map;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+
 @RestController
 public class BookStoreController {
 
@@ -52,6 +55,28 @@ public class BookStoreController {
         }
         
         return "{\"success\": true}";  
+    }
+
+    @CrossOrigin
+    @PostMapping("/restock")
+    public String addBook(@RequestParam("bookId") Long bookId, @RequestParam("quantity") int quantity, @RequestBody Credentials credentials) {
+        if(!credentials.getUsername().equals("Admin")){
+            System.out.println("Restock failed: not signed in as admin");
+            return "{\"success\": false}";
+        }
+
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+
+        if(valid){    
+            System.out.println("Restocking");
+            System.out.println(quantity);
+            
+            if(bookService.restockBook(bookId, quantity)){
+                return "{\"success\": true}";
+            }
+        }
+
+        return "{\"success\": false}"; // could be because of invalid credentials
     }
 
     @CrossOrigin
@@ -117,8 +142,26 @@ public class BookStoreController {
     }
 
     @CrossOrigin
-    @PostMapping(value="addBookToStore")
-    public String addCoverToBook(@RequestParam("isbn") String isbn, @RequestParam("title") String title, @RequestParam("description") String description, @RequestParam("author") String author, @RequestParam("publisher") String publisher, @RequestParam("genre") String genre, @RequestParam("price") float price, @RequestParam("stock") Integer stock, @RequestParam("cover") MultipartFile cover) {
+    @PostMapping(value="addBookToStore", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addCoverToBook(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("isbn") String isbn, @RequestParam("title") String title, @RequestParam("description") String description, @RequestParam("author") String author, @RequestParam("publisher") String publisher, @RequestParam("genre") String genre, @RequestParam("price") float price, @RequestParam("stock") Integer stock, @RequestParam("cover") MultipartFile cover) {
+        if(!username.equals("Admin")){
+            System.out.println("Add book failed: Not the admin");
+            // return "{\"success\": false}";
+            // return new ResponseEntity<>( "{\"success\": false}", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(302).header("Location", "/addBook?failed=true").body("{\"success\": false}");
+        }
+
+        if(!userService.verifyLogin(username, password)){
+            System.out.println("Add book failed: incorrect password");
+            // return "{\"success\": false}";
+            // return new ResponseEntity<>( "{\"success\": false}", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(302).header("Location", "/addBook?failed=true").body("{\"success\": false}");
+        }
+
+        
+        System.out.println("username=" + username);
+        System.out.println("password=" + password);
+        
         try{
             cover.transferTo(new File(System.getProperty("user.dir") + "/coverImages/" + cover.getOriginalFilename()));
             this.bookService.addBook(isbn, title, description, author, publisher, genre, price, cover.getOriginalFilename(), stock);
@@ -128,7 +171,9 @@ public class BookStoreController {
             System.out.println("err saving pic");
         }
 
-        return "redirect:/addBook";
+        // return "{\"success\": true}";
+        // return new ResponseEntity<>( "{\"success\": true}", HttpStatus.OK);
+        return ResponseEntity.status(302).header("Location", "/addBook?succeeded=true").body("{\"success\": true}");
     }
 
     @CrossOrigin

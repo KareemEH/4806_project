@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="javascript/jQuery-3.6.0/jquery-3.6.0.min.js"></script>
     <script src="javascript/common.js"></script>
+    <script src="javascript/addBook.js"></script>
     <link rel="stylesheet" href="stylesheets/common.css">
     <link rel="stylesheet" href="stylesheets/addBook.css">
     <link rel="icon" type="image/x-icon" href="/images/home_button.png">
@@ -24,44 +26,64 @@
         </div>
     </header>
     <div id="add-book-div">
-        <form method="POST" enctype="multipart/form-data" action="/addBookToStore">
+        <form id="add-new-book-form" method="POST" enctype="multipart/form-data" action="/addBookToStore">
             <p>Add a new book</p>
             <div>
                 <label>ISBN: </label>
-                <input id="isbn-field" name="isbn" type="text">
+                <input required id="isbn-field" name="isbn" type="text">
             </div>
             <div>
                 <label>Title: </label>
-                <input id="title-field" name="title" type="text">
+                <input required id="title-field" name="title" type="text">
             </div>
             <div>
                 <label>Description: </label>
-                <input id="description-field" name="description" type="text">
+                <input required id="description-field" name="description" type="text">
             </div>
             <div>
                 <label>Author: </label>
-                <input id="author-field" name="author" type="text">
+                <input required id="author-field" name="author" type="text">
             </div>
             <div>
                 <label>Publisher: </label>
-                <input id="publisher-field" name="publisher" type="text">
+                <input required id="publisher-field" name="publisher" type="text">
             </div>
             <div>
                 <label>Genre: </label>
-                <input id="genre-field" name="genre" type="text">
+                <input required id="genre-field" name="genre" type="text">
             </div>
             <div>
                 <label>Price: </label>
-                <input id="price-field" name="price" step="0.01" type="number">
+                <input required id="price-field" name="price" step="0.01" type="number">
             </div>
             <div>
                 <label>Stock: </label>
-                <input id="price-field" name="stock" step="1" type="number">
+                <input required id="price-field" name="stock" step="1" type="number">
             </div>
             <label>Cover: </label>
-            <input id="cover-field" type="file" name="cover">
+            <input required id="cover-field" type="file" name="cover">
             <input type="submit" value="submit">
+            
+            <!-- hidden form fields to be sent with other data -->
+            <input id="username" name="username" type="text" hidden>
+            <input id="password" name="password" type="text" hidden>
         </form>
+
+        <!-- <button onclick="$.post('/addBookToStore', $('#add-new-book-form').serialize())"></button> -->
+        <!-- <button onclick="console.log($('#add-add-new-book-form'))"></button>  -->
     </div>
 </body>
+<script th:if="${failed}">
+    console.log("here1");
+    document.addEventListener("DOMContentLoaded", () => {
+        alert("Adding new book failed. Please try again.");
+    });
+</script>
+<script th:if="${succeeded}">
+        console.log("here2");
+    document.addEventListener("DOMContentLoaded", () => {
+        alert("Adding new book succeeded.");
+        goHome();
+    });
+</script>
 </html>

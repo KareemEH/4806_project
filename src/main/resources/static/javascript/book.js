@@ -32,6 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const book_stock = document.getElementById("book-stock");
     const book_img = document.getElementById("book-picture");
     const buy_btn = document.getElementById("buy-btn");
+    const restock_btn = document.getElementById("restock-btn");
+    if(sessionStorage.username === "Admin"){
+        restock_btn.toggleAttribute("hidden"); // show it if admin
+    }
 
     console.log(book_id.textContent);
 
@@ -124,4 +128,20 @@ function addBookToCart() {
                     });
             }
         });
+}
+
+async function restock(){
+    let restockQuantity = parseInt(prompt("How much should current stock increase by?", 0));
+
+    return fetch("/restock?bookId=" + book_id.textContent + "&quantity=" + restockQuantity, {
+        method: "POST",
+        headers: {
+            'Content-Type': "application/json",
+            'Accept': "application/json",
+        },
+        body: JSON.stringify({
+            username: sessionStorage.getItem("username"),
+            password: sessionStorage.getItem("password"),
+        }),
+    })
 }

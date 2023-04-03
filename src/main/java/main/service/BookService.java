@@ -38,4 +38,22 @@ public class BookService {
         return true;
     }
 
+    public boolean restockBook(Long bookID, int restockQuantity){
+        BookModel book = null;
+        for(BookModel b : bookRepo.findAll()){
+            if(b.getId() == bookID){
+                book = b;
+            }
+        }
+
+        if(book == null){
+            return false;
+        }
+
+        book.setStock(book.getStock() + restockQuantity);
+        bookRepo.save(book);
+
+        return true;
+    }
+
 }

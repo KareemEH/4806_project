@@ -22,6 +22,10 @@
     width: 10vw;
 }
 
+#add-book-img {
+    width: 10vw;
+}
+
 #cart-btn {
     background-color: transparent;
     position: fixed;
@@ -29,4 +33,13 @@
     transform: scale(0.65);
     top: -25px;
     right: -25px;
+}
+
+#add-book-btn {
+    background-color: transparent;
+    position: fixed;
+    cursor: pointer;
+    transform: scale(0.65);
+    bottom: -25px;
+    left: -25px;
 }
