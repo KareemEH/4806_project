@@ -317,6 +317,7 @@ function getRecommendedBooks(){
                     genre: book.genre,
                     publisher: book.publisher,
                     isbn: book.isbn,
+                    coverFilename: book.coverFilename,
                 };
             });
         });

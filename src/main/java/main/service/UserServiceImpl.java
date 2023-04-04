@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService{
     public List<BookModel> getRecommendedBooks(Long userId) {
         Optional<UserModel> currentUser = userRepo.findById(userId);
         List<UserModel> allUsers = userRepo.findAllWithOrders();
-        List<BookModel> recommendedBooks = new ArrayList<>();
+        Set<BookModel> recommendedBooks = new HashSet<>();
 
         if(currentUser.isPresent() && !currentUser.get().getOrderList().isEmpty()){
             Map<UserModel, Double> jaccardDistances = new HashMap<>();
@@ -166,7 +166,6 @@ public class UserServiceImpl implements UserService{
                 }
             }
             List<UserModel> similarUsers = getSimilarUsers(jaccardDistances);
-
 
             for (UserModel similarUser : similarUsers) {
                 List<OrderModel> orders = similarUser.getOrderList();
@@ -182,7 +181,7 @@ public class UserServiceImpl implements UserService{
             }
         }
 
-        return recommendedBooks;
+        return new ArrayList<>(recommendedBooks);
     }
 
     private double calculateJaccardDistance(UserModel user1, UserModel user2) {
