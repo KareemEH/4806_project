@@ -74,8 +74,6 @@ public class GUIController {
 
     @GetMapping("/addBook")
     public String addBook(@RequestParam(name="failed", required = false) boolean failed, @RequestParam(name="succeeded", required = false) boolean succeeded, Model model){
-        
-        System.out.println(failed);
 
         model.addAttribute("failed", failed);
         model.addAttribute("succeeded", succeeded);

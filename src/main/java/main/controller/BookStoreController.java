@@ -90,9 +90,7 @@ public class BookStoreController {
 
         boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
 
-        if(valid){    
-            System.out.println("Restocking");
-            System.out.println(quantity);
+        if(valid){
             
             if(bookService.restockBook(bookId, quantity)){
                 return "{\"success\": true}";
@@ -181,9 +179,6 @@ public class BookStoreController {
             return ResponseEntity.status(302).header("Location", "/addBook?failed=true").body("{\"success\": false}");
         }
 
-        
-        System.out.println("username=" + username);
-        System.out.println("password=" + password);
         
         try{
             cover.transferTo(new File(System.getProperty("user.dir") + "/coverImages/" + cover.getOriginalFilename()));
