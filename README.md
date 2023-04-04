@@ -31,11 +31,11 @@ Note: the above command will build and run the bookstore app and database contai
 
 ## Running without Docker Compose
 
-You can run the jar file created by Maven or the Docker image separately if you want.
+You can run the jar file created by Maven or the Docker image separately if you want, make sure you are in the root project directory before executing any of these commands:
 
-- To run the jar file created by Maven: `java -jar target/4806_project-1.0.jar`
-- To run the MySQL container: `docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=book_store -e MYSQL_USER=group22 -e MYSQL_PASSWORD=password mysql/mysql-server:latest`
-- To run the bookstore container: `docker run -i -t --publish 127.0.0.1:8080:8080/tcp 4806_project`
+  - To run the jar file created by Maven: `java -jar target/4806_project-1.0.jar`
+  - To run the MySQL container: `docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=book_store -e MYSQL_USER=group22 -e MYSQL_PASSWORD=password -v "$(pwd)/src/main/resources/init:/docker-entrypoint-initdb.d" mysql/mysql-server:latest`
+  - To run the bookstore container: `docker run -i -t --publish 127.0.0.1:8080:8080/tcp 4806_project`
 
 ## Testing
 
