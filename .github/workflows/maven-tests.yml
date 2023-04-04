@@ -14,9 +14,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       - name: Start MySQL container
-        run: docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=book_store -e MYSQL_USER=group22 -e MYSQL_PASSWORD=password mysql/mysql-server:latest
+        run: docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=book_store_test -e MYSQL_USER=group22 -e MYSQL_PASSWORD=password mysql/mysql-server:latest
       - name: Wait for MySQL to start
-        run: sleep 30s
+        run: sleep 20s
       - name: TEST with Maven
         run: mvn test
       - name: Stop MySQL container
