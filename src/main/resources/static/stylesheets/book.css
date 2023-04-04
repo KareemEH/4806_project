@@ -14,6 +14,11 @@
     font-size: 1.5vw;
 }
 
+#book-descriptors-div > input {
+    margin-left: 5vw;
+    font-size: 1.5vw;
+}
+
 #book-descriptors-div > button {
     margin-left: 5vw;
 }

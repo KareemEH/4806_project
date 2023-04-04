@@ -58,8 +58,31 @@ public class BookStoreController {
     }
 
     @CrossOrigin
+    @PostMapping("/updateBook")
+    public String updateBook(@RequestParam("bookId") Long bookId, @RequestParam("title") String title, @RequestParam("isbn") String isbn, @RequestParam("description") String description, @RequestParam("author") String author, @RequestParam("publisher") String publisher, @RequestParam("price") Float price, @RequestParam("stock") Integer stock, @RequestBody Credentials credentials) {
+        if(!credentials.getUsername().equals("Admin")){
+            System.out.println("Restock failed: not signed in as admin");
+            return "{\"success\": false}";
+        }
+
+        boolean valid = userService.verifyLogin(credentials.getUsername(), credentials.getPassword());
+
+        if(valid){    
+            System.out.println("Updating book info");
+            
+            if(bookService.updateBook(bookId, title, isbn, description, author, publisher, price, stock)){
+                return "{\"success\": true}";
+            }
+        }
+
+        return "{\"success\": false}"; // could be because of invalid credentials
+    }
+
+
+
+    @CrossOrigin
     @PostMapping("/restock")
-    public String addBook(@RequestParam("bookId") Long bookId, @RequestParam("quantity") int quantity, @RequestBody Credentials credentials) {
+    public String restock(@RequestParam("bookId") Long bookId, @RequestParam("quantity") int quantity, @RequestBody Credentials credentials) {
         if(!credentials.getUsername().equals("Admin")){
             System.out.println("Restock failed: not signed in as admin");
             return "{\"success\": false}";

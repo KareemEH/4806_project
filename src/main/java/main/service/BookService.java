@@ -56,4 +56,29 @@ public class BookService {
         return true;
     }
 
+    public boolean updateBook(Long bookID, String title, String isbn, String description, String author, String publisher, Float price, Integer stock){
+        BookModel book = null;
+        for(BookModel b : bookRepo.findAll()){
+            if(b.getId() == bookID){
+                book = b;
+            }
+        }
+
+        if(book == null){
+            return false;
+        }
+
+        book.setTitle(title);
+        book.setIsbn(isbn);
+        book.setDescription(description);
+        book.setAuthor(author);
+        book.setPublisher(publisher);
+        book.setPrice(price);
+        book.setStock(stock);
+        
+        bookRepo.save(book);
+
+        return true;
+    }
+
 }
