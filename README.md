@@ -47,10 +47,10 @@ Front-end unit tests can be run by opening `jasmine/SpecRunner.html` in a browse
 
 ## UML Diagram (Models Only)
 
-![UML Diagram](https://github.com/Brandon-999/4806_project/blob/main/UML_Diagram.png?raw=true)
+![UML Diagram](https://github.com/Brandon-999/4806_project/blob/main/UML_Diagram_M3.png?raw=true)
 
 ## ER Diagram
 
-![ER Diagram](https://github.com/Brandon-999/4806_project/blob/main/ER-Diagram.png?raw=true)
+![ER Diagram](https://github.com/Brandon-999/4806_project/blob/main/ER-Diagram-M3.png?raw=true)
 
 
