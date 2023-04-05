@@ -37,6 +37,11 @@ You can run the jar file created by Maven or the Docker image separately if you 
   - To run the MySQL container: `docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=book_store -e MYSQL_USER=group22 -e MYSQL_PASSWORD=password -v "$(pwd)/src/main/resources/init:/docker-entrypoint-initdb.d" mysql/mysql-server:latest`
   - To run the bookstore container: `docker run -i -t --publish 127.0.0.1:8080:8080/tcp 4806_project`
 
+## Admin Login
+In order to login as an administrator you must login with the following credentials:
+Username: Admin
+Password: Admin
+
 ## Testing
 
 Tests can be run with `mvn test`
