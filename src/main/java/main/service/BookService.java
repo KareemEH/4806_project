@@ -1,17 +1,22 @@
 package main.service;
 
 import main.model.BookModel;
+import main.model.UserModel;
 import main.repository.BookRepository;
+import main.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
 
     private final BookRepository bookRepo;
+    private final UserRepository userRepo;
 
-    public BookService(BookRepository bookRepo){
+    public BookService(BookRepository bookRepo, UserRepository userRepo){
         this.bookRepo = bookRepo;
+        this.userRepo = userRepo;
         initializeBooks();
+        initializeAdmin();
     }
 
     public void initializeBooks(){
@@ -29,6 +34,12 @@ public class BookService {
         bookRepo.save(new BookModel(12L, "ISBN-EFG123", "The Road", "'The Road' is a post-apocalyptic novel by Cormac McCarthy, first published in 2006. The novel follows a father and his young son as they journey through a bleak and desolate landscape in search of safety and a better life. The novel explores themes of survival, morality, and the enduring bonds of love.", "Cormac McCarthy", "Alfred A. Knopf", "Science Fiction", 12.99F, "the_road.jpg",10));
         bookRepo.save(new BookModel(13L, "ISBN-HIJ456", "The Alchemist", "'The Alchemist' is a novel by Paulo Coelho, first published in 1988. The story follows Santiago, a young Andalusian shepherd who dreams of discovering a treasure buried in the Egyptian pyramids. The novel explores themes of destiny, spirituality, and the pursuit of one's dreams.", "Paulo Coelho", "HarperCollins", "Fiction", 9.99F, "the_alchemist.jpg",10));
         bookRepo.save(new BookModel(14L, "ISBN-KLM789", "The Count of Monte Cristo", "'The Count of Monte Cristo' is an adventure novel by Alexandre Dumas, first published in 1844. The novel follows the story of Edmond Dantès, a young sailor who is wrongfully imprisoned and seeks revenge against those who betrayed him. The novel explores themes of justice, revenge, and the power of perseverance.", "Alexandre Dumas", "Pétion", "Classic", 16.99F, "the_count_of_monte_cristo.jpg",10));
+    }
+
+    public void initializeAdmin(){
+        if(userRepo.findByUsername("Admin") == null){
+            userRepo.save(new UserModel("Admin", "Admin"));
+        }
     }
 
     public boolean addBook(String isbn, String title, String description, String author, String publisher, String genre, Float price, String coverFilename, Integer stock){
