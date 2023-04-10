@@ -39,8 +39,8 @@ You can run the jar file created by Maven or the Docker image separately if you 
 
 ## Admin Login
 In order to login as an administrator you must login with the following credentials:
-Username: Admin
-Password: Admin
+- Username: Admin
+- Password: Admin
 
 ## Testing
 
