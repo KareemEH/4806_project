@@ -307,6 +307,48 @@ public class EndpointsTest {
         MockMvcResultMatchers.jsonPath("$[1].id").value(3);
     }
 
+    @Test
+    public void updateBookEndpoint() throws Exception {
+        String newTitle = "NEW TITLE";
+        String newIsbn = "NEW ISBN";
+        String newDescription = "NEW DESCRIPTION";
+        String newAuthor = "NEW AUTHOR";
+        String newPublisher = "NEW PUBLISHER";
+        Float newPrice = new Float(123.45);
+        Integer newStock = new Integer(789);
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
+        bookRepository.save(book);
+
+        mvc.perform(post("/updateBook")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Credentials("Admin", "Admin").toJSON())
+                        .param("bookId", String.valueOf(book.getId()))
+                        .param("title", newTitle)
+                        .param("isbn", newIsbn)
+                        .param("description", newDescription)
+                        .param("author", newAuthor)
+                        .param("publisher", newPublisher)
+                        .param("price", newPrice.toString())
+                        .param("stock", newStock.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(true));
+
+        mvc.perform(get("/bookByID")
+                        .param("id", String.valueOf(book.getId()))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(newIsbn))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(newTitle))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(newDescription))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(newAuthor))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(newPublisher))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book.getGenre()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(newPrice))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(newStock));
+    }
+
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);
