@@ -81,7 +81,7 @@ public class BookStoreController {
 
 
     @CrossOrigin
-    @PostMapping("/restock")
+    @PostMapping(value="/restock", produces=MediaType.APPLICATION_JSON_VALUE)
     public String restock(@RequestParam("bookId") Long bookId, @RequestParam("quantity") int quantity, @RequestBody Credentials credentials) {
         if(!credentials.getUsername().equals("Admin")){
             System.out.println("Restock failed: not signed in as admin");

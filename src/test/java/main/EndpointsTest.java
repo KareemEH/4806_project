@@ -147,6 +147,116 @@ public class EndpointsTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(book.getStock()));
     }
 
+    // Test that valid "/restock" requests from admin are performed correctly
+    @Test
+    public void testValidRestockAPI() throws Exception {
+        int quantityToAdd = 74;
+        int initialQuantity = 10;
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png", initialQuantity);
+        BookModel book2 = new BookModel(2L, "9783161484200", "Test Book 2", "Test Description 2", "Test Author 2", "Test Publisher 2", "Test Genre 2", 29.99f, "coverImage.png",10);
+        bookRepository.save(book);
+        bookRepository.save(book2);
+
+        // Make the request to restock
+        mvc.perform(post("/restock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Credentials("Admin", "Admin").toJSON())
+                        .param("bookId", String.valueOf(book.getId()))
+                        .param("quantity", "" + quantityToAdd)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(true));
+
+        // Make request to verify book stock has increased
+        mvc.perform(get("/bookByID")
+                        .param("id", String.valueOf(book.getId()))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(book.getTitle()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(book.getDescription()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(book.getAuthor()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book.getGenre()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(book.getPrice()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(initialQuantity + quantityToAdd));
+
+        // Make request to ensure other book's stock not affected
+        mvc.perform(get("/bookByID")
+                        .param("id", String.valueOf(book2.getId()))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(book2.getIsbn()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(book2.getTitle()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(book2.getDescription()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(book2.getAuthor()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(book2.getPublisher()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book2.getGenre()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(book2.getPrice()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book2.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(book2.getStock()));
+    }
+
+    // Test that you can't add stock without being admin
+    @Test
+    public void testInvalidRestockAPI() throws Exception {
+        int quantityToAdd = 74;
+        int initialQuantity = 10;
+        BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png", initialQuantity);
+        bookRepository.save(book);
+
+        // Make the request to restock with wrong password
+        mvc.perform(post("/restock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Credentials("Admin", "WrongPassword").toJSON())
+                        .param("bookId", String.valueOf(book.getId()))
+                        .param("quantity", "" + quantityToAdd)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(false));
+
+        // Make request to verify book stock has not changed
+        mvc.perform(get("/bookByID")
+                        .param("id", String.valueOf(book.getId()))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(book.getTitle()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(book.getDescription()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(book.getAuthor()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book.getGenre()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(book.getPrice()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(book.getStock()));
+
+        // Make the request to restock with Username (not the admin)
+        mvc.perform(post("/restock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(new Credentials("NotAdmin", "Admin").toJSON())
+                        .param("bookId", String.valueOf(book.getId()))
+                        .param("quantity", "" + quantityToAdd)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.success").value(false));
+
+        // Make request to verify book stock has not changed
+        mvc.perform(get("/bookByID")
+                        .param("id", String.valueOf(book.getId()))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(book.getTitle()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(book.getDescription()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(book.getAuthor()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.publisher").value(book.getPublisher()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.genre").value(book.getGenre()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.price").value(book.getPrice()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(book.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.stock").value(book.getStock()));
+    }
+
     @Test
     public void addBookAPITest() throws Exception {
         BookModel book = new BookModel(1L, "9783161484100", "Test Book", "Test Description", "Test Author", "Test Publisher", "Test Genre", 19.99f, "coverImage.png",10);
